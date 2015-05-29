@@ -4,7 +4,6 @@ node_modules/*
 npm-debug.log
 .meteor/local
 .meteor/.gitignore
-packages/*
 packages/*/.npm
 packages/*/.build*
 .DS_Store
