@@ -1,4 +1,4 @@
-class CBGA.Game extends EventEmitter
+class CBGA.Game extends CBGA._DbModelBase
     # these seem like common defaults
     @MIN_PLAYERS = 2
     @MAX_PLAYERS = 4

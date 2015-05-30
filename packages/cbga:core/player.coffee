@@ -1,7 +1,8 @@
-class CBGA.Player extends EventEmitter
-    constructor: (game, @user) ->
+class CBGA.Player extends CBGA._DbModelBase
+    constructor: (game, user) ->
         super
-        @_game = game._id
+        @_user = user._id ? user
+        @_game = game._id ? game
 
     @_wrap: (doc) ->
         gameDoc = Games.findOne doc.game
@@ -12,4 +13,4 @@ class CBGA.Player extends EventEmitter
             throw new CBGA.GameError "Couldn't find rules for '#{gameDoc.rules}'"
         rules.wrapPlayer doc
 
-    @game: -> Games.findOne @_game
+    @game: -> CBGA.Games.findOne @_game

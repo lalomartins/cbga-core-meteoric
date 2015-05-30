@@ -20,6 +20,7 @@ Package.onUse(function(api) {
     api.addFiles([
         'core.coffee',
         'player.coffee',
+        'component.coffee',
         'game.coffee',
         'rules.coffee'
     ]);

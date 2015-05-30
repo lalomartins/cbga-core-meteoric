@@ -7,6 +7,14 @@ class CBGA._DbModelBase extends EventEmitter
     _load: (doc) ->
         _.extend @, doc
 
+    _toDb: ->
+        tmp = new EventEmitter
+        doc = {}
+        for own field, value of @
+            unless field of tmp or value instanceof CBGA._DbModelBase
+                doc[field] = value
+        doc
+
     @_bindCollection: (collection) ->
         @on 'changed', (update) ->
             collection.update @_id, update
@@ -34,3 +42,11 @@ class CBGA.GameError extends Error
                     @lineNumber = caller[2]
                     @columnNumber = caller[3]
                 @stack = stack.join '\n'
+
+CBGA.options = {}
+
+CBGA.setupCollections = ->
+    CBGA.Games = new Meteor.Collection CBGA.options?.names?.games ? 'games'
+    CBGA.Players = new Meteor.Collection CBGA.options?.names?.players ? 'players'
+    CBGA.Components = new Meteor.Collection CBGA.options?.names?.components ? 'components'
+    return
