@@ -49,4 +49,4 @@ CBGA.setupCollections = ->
     CBGA.Games = new Meteor.Collection CBGA.options?.names?.games ? 'games'
     CBGA.Players = new Meteor.Collection CBGA.options?.names?.players ? 'players'
     CBGA.Components = new Meteor.Collection CBGA.options?.names?.components ? 'components'
-    return
+    @
