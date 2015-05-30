@@ -5,10 +5,10 @@ class CBGA.Component extends CBGA._DbModelBase
     constructor: (game, container) ->
         super
         @_game = game._id ? game
-        @_container = container?.toDb?() ? container
+        @_container = container?._toDb?() ? container
 
     @_wrap: (doc) ->
-        gameDoc = Games.findOne doc.game
+        gameDoc = CBGA.Games.findOne doc._game
         unless gameDoc?
             throw new CBGA.GameError "Couldn't find game '#{doc.game}'"
         rules = CBGA.getGameRules gameDoc.rules
@@ -16,8 +16,8 @@ class CBGA.Component extends CBGA._DbModelBase
             throw new CBGA.GameError "Couldn't find rules for '#{gameDoc.rules}'"
         rules.wrapComponent doc
 
-    @game: -> CBGA.Games.findOne @_game
-    @container: -> CBGA.Container._wrap @_container
+    game: -> CBGA.Games.findOne @_game
+    container: -> CBGA.Container._wrap @_container
 
 
 class CBGA.Container
@@ -40,5 +40,5 @@ class CBGA.Container
         if triplet?
             new @ triplet
 
-    @_toDb: ->
+    _toDb: ->
         [@type, @ownerId, @name]

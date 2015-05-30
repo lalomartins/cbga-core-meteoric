@@ -8,7 +8,7 @@ class CBGA.GameRules
     newGame: ->
         if @gameClass?
             game = new @gameClass()
-            game._bindCollection Games
+            game._bindCollection CBGA.Games
             game
         else
             throw new Error 'You must override either gameClass, or newGame + wrapGame.'
@@ -17,7 +17,7 @@ class CBGA.GameRules
         if @gameClass?
             game = Object.create @gameClass.prototype
             game._load gameDoc
-            game._bindCollection Games
+            game._bindCollection CBGA.Games
             game
         else
             throw new Error 'You must override either gameClass, or newGame + wrapGame.'
@@ -27,7 +27,7 @@ class CBGA.GameRules
     newPlayer: ->
         if @playerClass?
             player = new @playerClass()
-            player._bindCollection Players
+            player._bindCollection CBGA.Players
             player
         else
             throw new Error 'You must override either playerClass, or newPlayer + wrapPlayer.'
@@ -36,7 +36,7 @@ class CBGA.GameRules
         if @playerClass?
             player = Object.create @playerClass.prototype
             player._load playerDoc
-            player._bindCollection Players
+            player._bindCollection CBGA.Players
             player
         else
             throw new Error 'You must override either playerClass, or newPlayer + wrapPlayer.'

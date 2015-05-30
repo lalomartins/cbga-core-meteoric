@@ -15,7 +15,7 @@ class CBGA._DbModelBase extends EventEmitter
                 doc[field] = value
         doc
 
-    @_bindCollection: (collection) ->
+    _bindCollection: (collection) ->
         @on 'changed', (update) ->
             collection.update @_id, update
 
