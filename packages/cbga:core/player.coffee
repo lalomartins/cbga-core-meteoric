@@ -5,21 +5,18 @@ class CBGA.Player extends CBGA._DbModelBase
         @_game = game._id ? game
 
     @_wrap: (doc) ->
-        gameDoc = CBGA.Games.findOne doc._game
-        unless gameDoc?
-            throw new CBGA.GameError "Couldn't find game '#{doc.game}'"
-        rules = CBGA.getGameRules gameDoc.rules
-        unless rules?
-            throw new CBGA.GameError "Couldn't find rules for '#{gameDoc.rules}'"
-        rules.wrapPlayer doc
+        CBGA.getGameRules @game().rules
+        .wrapPlayer doc
 
-    game: -> CBGA.Games.findOne @_game
+    game: ->
+        CBGA.findGame @_game
 
     components: (container) ->
+        rules = CBGA.getGameRules @game().rules
         if container?
-            CBGA.Components.find
+            rules.findComponents
                 _container: ['player', @_id, container]
         else
-            CBGA.Components.find
+            rules.findComponents
                 '_container.0': 'player'
                 '_container.1': @_id

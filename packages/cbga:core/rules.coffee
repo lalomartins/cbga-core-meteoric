@@ -13,7 +13,8 @@ class CBGA.GameRules
 
     newGame: ->
         if @gameClass?
-            game = new @gameClass arguments
+            game = Object.create @gameClass.prototype
+            @gameClass.apply game, arguments
             game._bindCollection CBGA.Games
             game
         else
@@ -39,7 +40,8 @@ class CBGA.GameRules
 
     newPlayer: ->
         if @playerClass?
-            player = new @playerClass arguments
+            player = Object.create @playerClass.prototype
+            @playerClass.apply player, arguments
             player._bindCollection CBGA.Players
             player
         else
@@ -64,7 +66,8 @@ class CBGA.GameRules
 
     newComponent: ->
         if @componentClass?
-            component = new @componentClass arguments
+            component = Object.create @componentClass.prototype
+            @componentClass.apply component, arguments
             component._bindCollection CBGA.Components
             component
         else

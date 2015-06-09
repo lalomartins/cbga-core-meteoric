@@ -3,16 +3,20 @@ CBGA = {}
 class CBGA._DbModelBase extends EventEmitter
     constructor: ->
         super
+        @_setupTransients()
+
+    _setupTransients: ->
+        EventEmitter.call @
 
     _load: (doc) ->
-        EventEmitter.call @
         _.extend @, doc
+        @_setupTransients()
 
     _toDb: ->
         tmp = new EventEmitter
         doc = {}
         for own field, value of @
-            unless field of tmp or value instanceof CBGA._DbModelBase
+            unless field of tmp or value instanceof CBGA._DbModelBase or field.match /^__/
                 doc[field] = value
         doc
 
@@ -43,6 +47,15 @@ class CBGA.GameError extends Error
                     @lineNumber = caller[2]
                     @columnNumber = caller[3]
                 @stack = stack.join '\n'
+
+CBGA.findGame = (selector) ->
+    doc = CBGA.Games.findOne selector
+    unless doc?
+        throw new CBGA.GameError "Couldn't find game '#{selector}'"
+    rules = CBGA.getGameRules doc.rules
+    unless rules?
+        throw new CBGA.GameError "Couldn't find rules for '#{doc.rules}'"
+    rules.wrapGame doc
 
 CBGA.options = {}
 

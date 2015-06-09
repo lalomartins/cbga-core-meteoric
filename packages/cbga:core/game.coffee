@@ -32,6 +32,8 @@ class CBGA.Game extends CBGA._DbModelBase
     # you *usually* don't want to override this one, instead customize
     # it via the methods above
     start: ->
+        if @started?
+            throw new CBGA.GameError 'This game is already running'
         rules = CBGA.getGameRules @rules
         players = rules.findPlayers
             _game: @_id
@@ -55,7 +57,20 @@ class CBGA.Game extends CBGA._DbModelBase
                 else
                     before.push player
         players = after.concat before
+        @started = new Date()
         @_setup1 rules, players
         for player in players
             @_setupPlayer rules, player
         @_setup2 rules, players
+
+    components: (container) ->
+        rules = CBGA.getGameRules @rules
+        unless rules?
+            throw new CBGA.GameError "Couldn't find rules for '#{gameDoc.rules}'"
+        if container?
+            rules.findComponents
+                _container: ['game', @_id, container]
+        else
+            rules.findComponents
+                '_container.0': 'game'
+                '_container.1': @_id
