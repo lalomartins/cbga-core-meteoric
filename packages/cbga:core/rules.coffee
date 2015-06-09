@@ -1,5 +1,11 @@
 gameRules = {}
 
+# There are two ways to define your own rules:
+# 1: Instantiate GameRules, passing a name, and assign to gameClass,
+# playerClass, and componentClass. This is easier.
+# 2: Subclass it, overriding the class properties. This is more flexible,
+# and necessary if you need to override methods.
+
 class CBGA.GameRules
     constructor: (@name) ->
 
@@ -22,11 +28,11 @@ class CBGA.GameRules
         else
             throw new Error 'You must override either gameClass, or newGame + wrapGame.'
 
-    findGame: (selector, options) ->
+    findGames: (selector, options) ->
         selector ?= {}
         selector.rules ?= @name
         options ?= {}
-        options.transform = @wrapGame
+        options.transform = _.bind @wrapGame, @
         CBGA.Games.find selector, options
 
     playerClass: null
@@ -49,9 +55,9 @@ class CBGA.GameRules
         else
             throw new Error 'You must override either playerClass, or newPlayer + wrapPlayer.'
 
-    findPlayer: (selector, options) ->
+    findPlayers: (selector, options) ->
         options ?= {}
-        options.transform = @wrapPlayer
+        options.transform = _.bind @wrapPlayer, @
         CBGA.Players.find selector, options
 
     componentClass: null
@@ -74,9 +80,9 @@ class CBGA.GameRules
         else
             throw new Error 'You must override either componentClass, or newComponent + wrapComponent.'
 
-    findComponent: (selector, options) ->
+    findComponents: (selector, options) ->
         options ?= {}
-        options.transform = @wrapComponent
+        options.transform = _.bind @wrapComponent, @
         CBGA.Components.find selector, options
 
 CBGA.registerGameRules = (rules) ->

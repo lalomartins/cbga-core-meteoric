@@ -5,6 +5,7 @@ class CBGA._DbModelBase extends EventEmitter
         super
 
     _load: (doc) ->
+        EventEmitter.call @
         _.extend @, doc
 
     _toDb: ->

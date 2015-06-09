@@ -32,18 +32,17 @@ class CBGA.Game extends CBGA._DbModelBase
     # you *usually* don't want to override this one, instead customize
     # it via the methods above
     start: ->
-        rules: CBGA.getGameRules @rules
-        players = Players.find
+        rules = CBGA.getGameRules @rules
+        players = rules.findPlayers
             _game: @_id
         ,
             sort: joined: 1
-            transform: rules.wrapPlayer
         .fetch()
         if players.length < @constructor.MIN_PLAYERS
             throw new CBGA.GameError 'Not enough players to start the game'
         if players.length > @constructor.MAX_PLAYERS
             throw new CBGA.GameError 'Too many players to start the game'
-        @firstPlayer = @_determineFirstPlayer rules, players
+        @firstPlayer = @_determineFirstPlayer(rules, players)._id
         # reorder players…
         before = []
         after = []
@@ -51,7 +50,7 @@ class CBGA.Game extends CBGA._DbModelBase
             switch
                 when after.length
                     after.push player
-                when player._id is @firstPlayer._id
+                when player._id is @firstPlayer
                     after.push player
                 else
                     before.push player

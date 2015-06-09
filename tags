@@ -1,0 +1,200 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+Avatar.options	server/playerData.coffee	/^Avatar.options =$/;"	v
+CBGA	packages/cbga:core/core.coffee	/^CBGA = {}$/;"	v
+CBGA.getGameRules	packages/cbga:core/rules.coffee	/^CBGA.getGameRules = (name) ->$/;"	f
+CBGA.options	packages/cbga:core/core.coffee	/^CBGA.options = {}$/;"	v
+CBGA.registerGameRules	packages/cbga:core/rules.coffee	/^CBGA.registerGameRules = (rules) ->$/;"	f
+CBGA.setupCollections	packages/cbga:core/core.coffee	/^CBGA.setupCollections = ->$/;"	f
+Component	packages/cbga:core/component.coffee	/^class CBGA.Component extends CBGA._DbModelBase$/;"	c
+Container	packages/cbga:core/component.coffee	/^class CBGA.Container$/;"	c
+Game	packages/cbga:core/game.coffee	/^class CBGA.Game extends CBGA._DbModelBase$/;"	c
+Game	packages/cbga:girls-war/rules.coffee	/^class GirlsWar.Game extends CBGA.Game$/;"	c
+GameError	packages/cbga:core/core.coffee	/^class CBGA.GameError extends Error$/;"	c
+GameRules	packages/cbga:core/rules.coffee	/^class CBGA.GameRules$/;"	c
+GirlsWar	packages/cbga:girls-war/utils.coffee	/^GirlsWar = {}$/;"	v
+GirlsWar.mainCards	packages/cbga:girls-war/cards.coffee	/^GirlsWar.mainCards = [$/;"	v
+GirlsWar.rules.gameClass	packages/cbga:girls-war/rules.coffee	/^GirlsWar.rules.gameClass = GirlsWar.Game$/;"	v
+GirlsWar.rules.playerClass	packages/cbga:girls-war/rules.coffee	/^GirlsWar.rules.playerClass = CBGA.Player$/;"	v
+GirlsWar.trendCards	packages/cbga:girls-war/cards.coffee	/^GirlsWar.trendCards = [$/;"	v
+MAX_PLAYERS	packages/cbga:core/game.coffee	/^    @MAX_PLAYERS = 4$/;"	f
+MAX_PLAYERS	packages/cbga:girls-war/rules.coffee	/^    @MAX_PLAYERS = 9$/;"	f
+MIN_PLAYERS	packages/cbga:core/game.coffee	/^    @MIN_PLAYERS = 2$/;"	f
+Player	packages/cbga:core/player.coffee	/^class CBGA.Player extends CBGA._DbModelBase$/;"	c
+Template	client/lib/templateHelpers.coffee	/^Template::bindDateDisplay = ->$/;"	m
+TemplateHelpers	client/lib/templateHelpers.coffee	/^@TemplateHelpers =$/;"	f
+_DbModelBase	packages/cbga:core/core.coffee	/^class CBGA._DbModelBase extends EventEmitter$/;"	c
+acting	packages/cbga:girls-war/cards.coffee	/^        acting: '0'$/;"	f
+acting	packages/cbga:girls-war/cards.coffee	/^        acting: '1'$/;"	f
+acting	packages/cbga:girls-war/cards.coffee	/^        acting: '2'$/;"	f
+acting	packages/cbga:girls-war/cards.coffee	/^        acting: '3'$/;"	f
+action	packages/cbga:girls-war/cards.coffee	/^        action: '''Duet$/;"	f
+action	packages/cbga:girls-war/cards.coffee	/^        action: idolAbilities.backup$/;"	f
+action	packages/cbga:girls-war/cards.coffee	/^        action: idolAbilities.hardWork$/;"	f
+action	packages/cbga:girls-war/cards.coffee	/^        action: idolAbilities.photoshoot$/;"	f
+add	client/lib/templateHelpers.coffee	/^    add: (name, fn) ->$/;"	m
+added	server/playerData.coffee	/^        added: (userDoc) =>$/;"	m
+after	packages/cbga:core/game.coffee	/^        after = []$/;"	v
+backup	packages/cbga:girls-war/cards.coffee	/^    backup: '''Backup$/;"	f
+before	packages/cbga:core/game.coffee	/^        before = []$/;"	v
+charisma	packages/cbga:girls-war/cards.coffee	/^        charisma: '0'$/;"	f
+charisma	packages/cbga:girls-war/cards.coffee	/^        charisma: '1'$/;"	f
+charisma	packages/cbga:girls-war/cards.coffee	/^        charisma: '2'$/;"	f
+charisma	packages/cbga:girls-war/cards.coffee	/^        charisma: '3'$/;"	f
+charisma	packages/cbga:girls-war/cards.coffee	/^        charisma: '4'$/;"	f
+charmPoint	packages/cbga:girls-war/cards.coffee	/^        charmPoint: '''Athletic$/;"	f
+charmPoint	packages/cbga:girls-war/cards.coffee	/^        charmPoint: '''Modest$/;"	f
+charmPoint	packages/cbga:girls-war/cards.coffee	/^        charmPoint: '''Pure Girls Forever$/;"	f
+collection	packages/cbga:core/component.coffee	/^        collection = switch$/;"	v
+columnNumber	packages/cbga:core/core.coffee	/^                    @columnNumber = caller[3]$/;"	f
+comedy	packages/cbga:girls-war/cards.coffee	/^        comedy: '0'$/;"	f
+comedy	packages/cbga:girls-war/cards.coffee	/^        comedy: '1'$/;"	f
+comedy	packages/cbga:girls-war/cards.coffee	/^        comedy: '2'$/;"	f
+comedy	packages/cbga:girls-war/cards.coffee	/^        comedy: '3'$/;"	f
+comedy	packages/cbga:girls-war/cards.coffee	/^        comedy: '4'$/;"	f
+components	packages/cbga:core/player.coffee	/^    components: (container) ->$/;"	m
+constructor	packages/cbga:core/component.coffee	/^    constructor: (game, container) ->$/;"	m
+constructor	packages/cbga:core/component.coffee	/^    constructor: (triplet) ->$/;"	m
+constructor	packages/cbga:core/core.coffee	/^    constructor: (@message) ->$/;"	m
+constructor	packages/cbga:core/core.coffee	/^    constructor: ->$/;"	m
+constructor	packages/cbga:core/game.coffee	/^    constructor: ->$/;"	m
+constructor	packages/cbga:core/player.coffee	/^    constructor: (game, user) ->$/;"	m
+constructor	packages/cbga:core/rules.coffee	/^    constructor: (@name) ->$/;"	m
+constructor	packages/cbga:girls-war/rules.coffee	/^    constructor: ->$/;"	m
+container	packages/cbga:core/component.coffee	/^    container: -> CBGA.Container._wrap @_container$/;"	m
+cool	packages/cbga:girls-war/cards.coffee	/^        cool: '0'$/;"	f
+cool	packages/cbga:girls-war/cards.coffee	/^        cool: '1'$/;"	f
+cool	packages/cbga:girls-war/cards.coffee	/^        cool: '2'$/;"	f
+cool	packages/cbga:girls-war/cards.coffee	/^        cool: '3'$/;"	f
+customImageProperty	server/playerData.coffee	/^    customImageProperty: 'profile.avatarUrl'$/;"	f
+dancing	packages/cbga:girls-war/cards.coffee	/^        dancing: '0'$/;"	f
+dancing	packages/cbga:girls-war/cards.coffee	/^        dancing: '1'$/;"	f
+dancing	packages/cbga:girls-war/cards.coffee	/^        dancing: '2'$/;"	f
+dancing	packages/cbga:girls-war/cards.coffee	/^        dancing: '3'$/;"	f
+dancing	packages/cbga:girls-war/cards.coffee	/^        dancing: '4'$/;"	f
+dancing	packages/cbga:girls-war/cards.coffee	/^        dancing: '5'$/;"	f
+displayDateFull	client/lib/templateHelpers.coffee	/^    displayDateFull: (date) ->$/;"	m
+displayDateShort	client/lib/templateHelpers.coffee	/^    displayDateShort: (date) ->$/;"	m
+displayName	client/accountWrappers.coffee	/^    displayName: "email",$/;"	f
+displayName	client/lib/templateHelpers.coffee	/^    displayName: (profile) ->$/;"	m
+doc	packages/cbga:core/core.coffee	/^        doc = {}$/;"	v
+editTimer	client/profileEdit.coffee	/^                editTimer = Meteor.setTimeout saveEdits, 1000$/;"	v
+editTimer	client/profileEdit.coffee	/^        editTimer = Meteor.setTimeout saveEdits, 1000$/;"	v
+except	common/routes.coffee	/^        except: ['atForgotPassword', 'about']$/;"	f
+expansions	packages/cbga:core/game.coffee	/^        @expansions = []$/;"	f
+fastRender	common/routes.coffee	/^        fastRender: true$/;"	f
+fileName	packages/cbga:core/core.coffee	/^                    @fileName = caller[1]$/;"	f
+findComponents	packages/cbga:core/rules.coffee	/^    findComponents: (selector, options) ->$/;"	m
+findGames	packages/cbga:core/rules.coffee	/^    findGames: (selector, options) ->$/;"	m
+findPlayers	packages/cbga:core/rules.coffee	/^    findPlayers: (selector, options) ->$/;"	m
+first	packages/cbga:core/core.coffee	/^                    first = stack.shift()$/;"	v
+firstEmail	client/profileEdit.coffee	/^    firstEmail: ->$/;"	m
+game	packages/cbga:core/component.coffee	/^    game: -> CBGA.Games.findOne @_game$/;"	m
+game	packages/cbga:core/player.coffee	/^    game: -> CBGA.Games.findOne @_game$/;"	m
+game	packages/cbga:core/rules.coffee	/^            game = Object.create @gameClass.prototype$/;"	v
+gameRules	packages/cbga:core/rules.coffee	/^gameRules = {}$/;"	v
+genki	packages/cbga:girls-war/cards.coffee	/^        genki: '0'$/;"	f
+genki	packages/cbga:girls-war/cards.coffee	/^        genki: '1'$/;"	f
+genki	packages/cbga:girls-war/cards.coffee	/^        genki: '2'$/;"	f
+genki	packages/cbga:girls-war/cards.coffee	/^        genki: '3'$/;"	f
+gravatarDefault	server/playerData.coffee	/^    gravatarDefault: 'mm'$/;"	f
+hardWork	packages/cbga:girls-war/cards.coffee	/^    hardWork: '''Hard Work$/;"	f
+hasUsername	server/playerData.coffee	/^                    hasUsername = true$/;"	v
+hasUsername	server/playerData.coffee	/^        hasUsername = false$/;"	v
+idolAbilities	packages/cbga:girls-war/cards.coffee	/^idolAbilities =$/;"	v
+kawaii	packages/cbga:girls-war/cards.coffee	/^        kawaii: '0'$/;"	f
+kawaii	packages/cbga:girls-war/cards.coffee	/^        kawaii: '1'$/;"	f
+kawaii	packages/cbga:girls-war/cards.coffee	/^        kawaii: '2'$/;"	f
+kawaii	packages/cbga:girls-war/cards.coffee	/^        kawaii: '3'$/;"	f
+kawaii	packages/cbga:girls-war/cards.coffee	/^        kawaii: '4'$/;"	f
+layoutTemplate	common/routes.coffee	/^        layoutTemplate: 'layout'$/;"	f
+lineNumber	packages/cbga:core/core.coffee	/^                    @lineNumber = caller[2]$/;"	f
+log	packages/cbga:core/game.coffee	/^        @log = []$/;"	f
+message	packages/cbga:core/core.coffee	/^    constructor: (@message) ->$/;"	f
+minLength	client/accountWrappers.coffee	/^    minLength: 5,$/;"	f
+name	common/routes.coffee	/^        name: 'home'$/;"	f
+name	packages/cbga:core/core.coffee	/^        @name = 'GameError'$/;"	f
+name	packages/cbga:core/rules.coffee	/^    constructor: (@name) ->$/;"	f
+name	packages/cbga:girls-war/cards.coffee	/^        name: 'Kirara Sada'$/;"	f
+name	packages/cbga:girls-war/cards.coffee	/^        name: 'Starter idol #1'$/;"	f
+name	packages/cbga:girls-war/cards.coffee	/^        name: 'Starter idol #10'$/;"	f
+name	packages/cbga:girls-war/cards.coffee	/^        name: 'Starter idol #11'$/;"	f
+name	packages/cbga:girls-war/cards.coffee	/^        name: 'Starter idol #12'$/;"	f
+name	packages/cbga:girls-war/cards.coffee	/^        name: 'Starter idol #2'$/;"	f
+name	packages/cbga:girls-war/cards.coffee	/^        name: 'Starter idol #3'$/;"	f
+name	packages/cbga:girls-war/cards.coffee	/^        name: 'Starter idol #4'$/;"	f
+name	packages/cbga:girls-war/cards.coffee	/^        name: 'Starter idol #5'$/;"	f
+name	packages/cbga:girls-war/cards.coffee	/^        name: 'Starter idol #6'$/;"	f
+name	packages/cbga:girls-war/cards.coffee	/^        name: 'Starter idol #7'$/;"	f
+name	packages/cbga:girls-war/cards.coffee	/^        name: 'Starter idol #8'$/;"	f
+name	packages/cbga:girls-war/cards.coffee	/^        name: 'Starter idol #9'$/;"	f
+newComponent	packages/cbga:core/rules.coffee	/^    newComponent: ->$/;"	m
+newGame	packages/cbga:core/rules.coffee	/^    newGame: ->$/;"	m
+newPlayer	packages/cbga:core/rules.coffee	/^    newPlayer: ->$/;"	m
+okText	client/profileEdit.coffee	/^                okText: 'Oh bummer…'$/;"	f
+onOk	client/profileEdit.coffee	/^                onOk: -> state = 'clear'$/;"	m
+onSubmitHook	client/accountWrappers.coffee	/^    onSubmitHook: (error, state)->$/;"	m
+photoshoot	packages/cbga:girls-war/cards.coffee	/^    photoshoot: '''Photoshoot$/;"	f
+player	packages/cbga:core/rules.coffee	/^            player = Object.create @playerClass.prototype$/;"	v
+pluralize	client/lib/templateHelpers.coffee	/^    pluralize: (number, singular, plural) ->$/;"	m
+points	packages/cbga:girls-war/cards.coffee	/^        points: '10'$/;"	f
+points	packages/cbga:girls-war/cards.coffee	/^        points: '12'$/;"	f
+points	packages/cbga:girls-war/cards.coffee	/^        points: '15'$/;"	f
+points	packages/cbga:girls-war/cards.coffee	/^        points: '18'$/;"	f
+points	packages/cbga:girls-war/cards.coffee	/^        points: '21'$/;"	f
+points	packages/cbga:girls-war/cards.coffee	/^        points: '24'$/;"	f
+points	packages/cbga:girls-war/cards.coffee	/^        points: '27'$/;"	f
+points	packages/cbga:girls-war/cards.coffee	/^        points: '30'$/;"	f
+profile	client/lib/templateHelpers.coffee	/^        profile = profile.profile ? profile$/;"	v
+pure	packages/cbga:girls-war/cards.coffee	/^        pure: '0'$/;"	f
+pure	packages/cbga:girls-war/cards.coffee	/^        pure: '1'$/;"	f
+pure	packages/cbga:girls-war/cards.coffee	/^        pure: '2'$/;"	f
+pure	packages/cbga:girls-war/cards.coffee	/^        pure: '3'$/;"	f
+pure	packages/cbga:girls-war/cards.coffee	/^        pure: '4'$/;"	f
+queueEdits	client/profileEdit.coffee	/^queueEdits = (fields) ->$/;"	f
+rebel	packages/cbga:girls-war/cards.coffee	/^        rebel: '0'$/;"	f
+rebel	packages/cbga:girls-war/cards.coffee	/^        rebel: '1'$/;"	f
+rebel	packages/cbga:girls-war/cards.coffee	/^        rebel: '2'$/;"	f
+rebel	packages/cbga:girls-war/cards.coffee	/^        rebel: '3'$/;"	f
+rebel	packages/cbga:girls-war/cards.coffee	/^        rebel: '4'$/;"	f
+required	client/accountWrappers.coffee	/^    required: true,$/;"	f
+rules	packages/cbga:core/component.coffee	/^        rules = CBGA.getGameRules gameDoc.rules$/;"	v
+rules	packages/cbga:core/game.coffee	/^        rules = CBGA.getGameRules @rules$/;"	v
+rules	packages/cbga:core/game.coffee	/^        rules = CBGA.getGameRules doc.rules$/;"	v
+rules	packages/cbga:core/player.coffee	/^        rules = CBGA.getGameRules gameDoc.rules$/;"	v
+rules	packages/cbga:girls-war/rules.coffee	/^        @rules = 'Girls War'$/;"	f
+saveEdits	client/profileEdit.coffee	/^saveEdits = ->$/;"	f
+showAddRemoveServices	client/accountWrappers.coffee	/^    showAddRemoveServices: true$/;"	f
+showForgotPasswordLink	client/accountWrappers.coffee	/^    showForgotPasswordLink: true$/;"	f
+singing	packages/cbga:girls-war/cards.coffee	/^        singing: '0'$/;"	f
+singing	packages/cbga:girls-war/cards.coffee	/^        singing: '1'$/;"	f
+singing	packages/cbga:girls-war/cards.coffee	/^        singing: '2'$/;"	f
+singing	packages/cbga:girls-war/cards.coffee	/^        singing: '3'$/;"	f
+singing	packages/cbga:girls-war/cards.coffee	/^        singing: '4'$/;"	f
+singing	packages/cbga:girls-war/cards.coffee	/^        singing: '5'$/;"	f
+specialAbility	packages/cbga:girls-war/cards.coffee	/^        specialAbility: '''Perfect$/;"	f
+start	packages/cbga:core/game.coffee	/^    start: ->$/;"	m
+starter	packages/cbga:girls-war/cards.coffee	/^        starter: true$/;"	f
+starterLineup	packages/cbga:girls-war/cards.coffee	/^        starterLineup: true$/;"	f
+state	client/profileEdit.coffee	/^            state = 'clear'$/;"	v
+state	client/profileEdit.coffee	/^            state = 'error'$/;"	v
+state	client/profileEdit.coffee	/^state = 'clear'$/;"	v
+trackPageView	common/routes.coffee	/^        trackPageView: true$/;"	f
+trait	packages/cbga:girls-war/cards.coffee	/^        trait: 'cool'$/;"	f
+trait	packages/cbga:girls-war/cards.coffee	/^        trait: 'kawaii'$/;"	f
+trait	packages/cbga:girls-war/cards.coffee	/^        trait: 'pure'$/;"	f
+trait	packages/cbga:girls-war/cards.coffee	/^        trait: 'rebel'$/;"	f
+type	client/accountWrappers.coffee	/^    type: "text",$/;"	f
+type	client/accountWrappers.coffee	/^    type: 'email',$/;"	f
+type	packages/cbga:girls-war/cards.coffee	/^        type: 'Idol'$/;"	f
+update	server/playerData.coffee	/^    update: (userId, doc, fieldNames, modifier) ->$/;"	m
+value	packages/cbga:girls-war/cards.coffee	/^        value: +1$/;"	f
+value	packages/cbga:girls-war/cards.coffee	/^        value: +2$/;"	f
+value	packages/cbga:girls-war/cards.coffee	/^        value: +3$/;"	f
+wrapComponent	packages/cbga:core/rules.coffee	/^    wrapComponent: (componentDoc) ->$/;"	m
+wrapGame	packages/cbga:core/rules.coffee	/^    wrapGame: (gameDoc) ->$/;"	m
+wrapPlayer	packages/cbga:core/rules.coffee	/^    wrapPlayer: (playerDoc) ->$/;"	m
