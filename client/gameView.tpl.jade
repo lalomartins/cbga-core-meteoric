@@ -1,9 +1,6 @@
 +contentFor 'headerTitle'
-    h1.title
-        =rules
-        | started
-        +dateDisplaySpan started
+    h1.title #{rules} started #[+dateDisplaySpan started]
 
 +ionView
     +ionContent
-        p Hello
+        +GirlsWar_game

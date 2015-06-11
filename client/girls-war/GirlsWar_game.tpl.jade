@@ -1,0 +1,37 @@
+with thisPlayer
+  with user
+    p Hello, #{displayName}
+
+  #this-player-hand.card
+    with components 'hand'
+      each makeRows list=this columns=5
+        .row.responsive-md
+          each columns
+            .game-card-container.col.col-20
+              .game-card.card
+                .item.item-narrow
+                  if starter
+                    .starter-marker starter
+                  if starterLineup
+                    .starter-marker starter lineup
+
+                  i #{cardType} — cost: #{cost}
+                .item
+                  h2= name
+                .item.row.responsive-sm
+                  .col
+                    h3 Skills
+                    p #{singing} singing
+                    p #{dancing} dancing
+                    p #{charisma} charisma
+                    p #{comedy} comedy
+                    p #{acting} acting
+                  .col.align-right
+                    h3 Qualities
+                    p kawaii #{kawaii}
+                    p genki #{genki}
+                    p pure #{pure}
+                    p cool #{cool}
+                    p rebel #{rebel}
+
+                  

@@ -15,7 +15,8 @@ Package.onUse(function(api) {
     api.use([
         'coffeescript',
         'random',
-        'raix:eventemitter'
+        'raix:eventemitter',
+        'lalomartins:template-helpers'
     ]);
     api.addFiles([
         'core.coffee',
