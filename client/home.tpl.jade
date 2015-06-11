@@ -3,7 +3,17 @@
 
 +ionView
     +ionContent
-        p My stuff will go here
+        .list
+            each games
+                +ionItem path='game/:_id'
+                    | Game of “#{rules}” created #[+dateDisplaySpan created] by #{space}
+                    if isOwner
+                        | you
+                    else
+                        with owner
+                            a.profile-link(href='/u/#{username}')= displayName
+                    if started
+                        | , started #[+dateDisplaySpan started]
 
 +contentFor 'tabs'
     +homeTabs

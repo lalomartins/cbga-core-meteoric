@@ -1,11 +1,8 @@
 Template.gameSetup.helpers
-    'owner': ->
-        Meteor.users.findOne @owner
+    isOwner: ->
+        @_owner is Meteor.userId()
 
-    'isOwner': ->
-        @owner is Meteor.userId()
-
-    'players': ->
+    players: ->
         rules = CBGA.getGameRules @rules
         rules.findPlayers _game: @_id,
             sort: joined: 1
@@ -13,3 +10,6 @@ Template.gameSetup.helpers
 Template.gameSetup.events
     'click .remove-player': ->
         Meteor.call 'game.removePlayer', @_id
+
+    'click #start-game': ->
+        Meteor.call 'game.start', @_id

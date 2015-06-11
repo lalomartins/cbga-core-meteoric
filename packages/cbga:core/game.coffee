@@ -7,6 +7,7 @@ class CBGA.Game extends CBGA._DbModelBase
         super
         # pattern: hardcode @rules = 'foo' for your ruleset
         @rules = null
+        @_owner= null
         @expansions = []
         @created = new Date()
         @log = []
@@ -16,6 +17,9 @@ class CBGA.Game extends CBGA._DbModelBase
         unless rules?
             throw new CBGA.GameError "Couldn't find rules for '#{doc.rules}'"
         rules.wrapGame doc
+
+    owner: ->
+        Meteor.users.findOne @_owner
 
     _determineFirstPlayer: (rules, players) ->
         Random.choice players
