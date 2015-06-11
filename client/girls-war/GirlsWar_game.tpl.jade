@@ -8,7 +8,7 @@ with thisPlayer
         .row.responsive-md
           each columns
             .game-card-container.col.col-20
-              .game-card.card
+              .game-card.card(class=cardTypeToClass)
                 .item.item-narrow
                   if starter
                     .starter-marker starter

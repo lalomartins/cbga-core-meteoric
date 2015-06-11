@@ -6,5 +6,8 @@ Template.GirlsWar_game.helpers
     , limit: 1
     .fetch()[0]
 
+  cardTypeToClass: ->
+    'game-card-' + @cardType.toLowerCase().replace(/\W/g, '-').replace(/--+/g, '-')
+
   cardHasSpecials: ->
     @action or @charmPoint or @ability or @specialAbility or @reaction
