@@ -4,3 +4,6 @@
 [submodule "packages/ionic-stylus"]
 	path = packages/ionic-stylus
 	url = git@github.com:lalomartins/ionic-stylus.git
+[submodule "packages/lalomartins:template-helpers"]
+	path = packages/lalomartins:template-helpers
+	url = git@github.com:lalomartins/meteor-smart-template-helpers.git
