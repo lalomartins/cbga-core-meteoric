@@ -34,4 +34,18 @@ with thisPlayer
                     p cool #{cool}
                     p rebel #{rebel}
 
-                  
+                if action
+                  .item.card-text.ion-arrow-right-a(title='Action: Play from your hand to get this effect. Discard immediately.')
+                    = action
+                if reaction
+                  .item.card-text.ion-alert-circled(title='Reaction: Play at any time when this condition is met, even if it\'s not your turn, from your hand or from play.')
+                    = reaction
+                if ability
+                  .item.card-text.ion-refresh(title='Ability: Use this ability as your action, if this card is in play.')
+                    = ability
+                if specialAbility
+                  .item.card-text.ion-arrow-return-left(title='Special Ability: Use this ability as your action, if this card is in play; then flip this card.')
+                    = specialAbility
+                if charmPoint
+                  .item.card-text.ion-pin(title='Charm Point: This effect is always active, as long as this card is in play and face-up.')
+                    = charmPoint

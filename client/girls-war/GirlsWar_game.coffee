@@ -5,3 +5,6 @@ Template.GirlsWar_game.helpers
       _user: Meteor.userId()
     , limit: 1
     .fetch()[0]
+
+  cardHasSpecials: ->
+    @action or @charmPoint or @ability or @specialAbility or @reaction

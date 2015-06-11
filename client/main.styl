@@ -49,3 +49,14 @@ a.profile-link
     .starter-marker
       float right
       text-decoration underline
+
+    &.card-text
+      white-space: pre-wrap
+
+      &::first-line
+        font-weight bold
+        font-size 110%
+
+      &:before
+        display inline-block
+        margin-right 0.8rem
