@@ -23,7 +23,7 @@ Router.map ->
 
     @route 'game/:_id',
         data: ->
-            CBGA.Games.findOne @params._id
+            CBGA.Games.findOne @params._id, transform: CBGA.Game._wrap
 
         action: ->
             if @data()?.started?

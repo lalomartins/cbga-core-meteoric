@@ -78,6 +78,7 @@ class CBGA.Container
         [@type, @ownerId, @name]
 
     find: (selector, options) ->
+        selector ?= {}
         if typeof selector isnt 'string'
             selector._container = @_toDb()
         @rules.findComponents selector, options

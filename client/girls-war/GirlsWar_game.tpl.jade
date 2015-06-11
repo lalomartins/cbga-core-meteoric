@@ -1,51 +1,17 @@
-with thisPlayer
-  with user
-    p Hello, #{displayName}
+#lineup.game-panel.card
+  i.panel-label.ion-search Scouting Lineup
+  with components 'lineup'
+    each makeRows list=this columns=5
+      .row.responsive-md
+        each columns
+          +GirlsWar_card
 
-  #this-player-hand.card
+with thisPlayer
+
+  #this-player-hand.game-panel.card
+    i.panel-label.ion-android-hand Your hand
     with components 'hand'
       each makeRows list=this columns=5
         .row.responsive-md
           each columns
-            .game-card-container.col.col-20
-              .game-card.card(class=cardTypeToClass)
-                .item.item-narrow
-                  if starter
-                    .starter-marker starter
-                  if starterLineup
-                    .starter-marker starter lineup
-
-                  i #{cardType} — cost: #{cost}
-                .item
-                  h2= name
-                .item.row.responsive-sm
-                  .col
-                    h3 Skills
-                    p #{singing} singing
-                    p #{dancing} dancing
-                    p #{charisma} charisma
-                    p #{comedy} comedy
-                    p #{acting} acting
-                  .col.align-right
-                    h3 Qualities
-                    p kawaii #{kawaii}
-                    p genki #{genki}
-                    p pure #{pure}
-                    p cool #{cool}
-                    p rebel #{rebel}
-
-                if action
-                  .item.card-text.ion-arrow-right-a(title='Action: Play from your hand to get this effect. Discard immediately.')
-                    = action
-                if reaction
-                  .item.card-text.ion-alert-circled(title='Reaction: Play at any time when this condition is met, even if it\'s not your turn, from your hand or from play.')
-                    = reaction
-                if ability
-                  .item.card-text.ion-refresh(title='Ability: Use this ability as your action, if this card is in play.')
-                    = ability
-                if specialAbility
-                  .item.card-text.ion-arrow-return-left(title='Special Ability: Use this ability as your action, if this card is in play; then flip this card.')
-                    = specialAbility
-                if charmPoint
-                  .item.card-text.ion-pin(title='Charm Point: This effect is always active, as long as this card is in play and face-up.')
-                    = charmPoint
+            +GirlsWar_card
