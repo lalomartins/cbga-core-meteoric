@@ -11,6 +11,9 @@ class CBGA.Player extends CBGA._DbModelBase
     game: ->
         CBGA.findGame @_game
 
+    user: ->
+        Meteor.users.findOne @_user
+
     components: (container) ->
         rules = CBGA.getGameRules @game().rules
         if container?

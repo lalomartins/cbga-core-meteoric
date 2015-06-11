@@ -11,7 +11,7 @@ Meteor.publish 'player-avatars', ->
     .observe
         added: (userDoc) =>
             @added 'users', userDoc._id,
-                'profile.avatarUrl': Avatar.getUrl userDoc
+                defaultAvatar: Avatar.getUrl userDoc
     @onStop -> handle.stop()
     @ready()
 
@@ -39,3 +39,10 @@ Meteor.users.allow
         return true
 
     fetch: ['username', 'profile']
+
+# XXX publish only what we want (friends, players, one user)
+Meteor.publish 'all-users', ->
+    Meteor.users.find {},
+        fields:
+            username: 1
+            profile: 1

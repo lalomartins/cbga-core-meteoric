@@ -2,12 +2,12 @@
     h1.title Profile
 
 +contentFor 'headerButtonRight'
-    button.button.button-clear(data-ion-modal='profileEdit') Edit
+    if canEdit
+        button.button.button-clear(data-ion-modal='profileEdit') Edit
 
 +ionView
     +ionContent
-        with currentUser
-            +profileCard
+        +profileCard user=this
 
 +contentFor 'tabs'
     +homeTabs

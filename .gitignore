@@ -9,3 +9,4 @@ packages/*/.build*
 .DS_Store
 .meteor/test-db/*
 .zedstate
+packages/cbga:girls-war

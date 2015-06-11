@@ -21,13 +21,13 @@ class CBGA.Game extends CBGA._DbModelBase
         Random.choice players
 
     # called before _setupPlayer (build deck, etc)
-    _setup1: (rules, players) ->
+    _setup1: (rules, players, update) ->
 
     # called for each player in order (deal cards, etc)
-    _setupPlayer: (rules, player) ->
+    _setupPlayer: (rules, player, update) ->
 
     # called after _setupPlayer (build lineup, etc)
-    _setup2: (rules, players) ->
+    _setup2: (rules, players, update) ->
 
     # you *usually* don't want to override this one, instead customize
     # it via the methods above
@@ -58,10 +58,12 @@ class CBGA.Game extends CBGA._DbModelBase
                     before.push player
         players = after.concat before
         @started = new Date()
-        @_setup1 rules, players
+        update = $set: started: @started
+        @_setup1 rules, players, update
         for player in players
-            @_setupPlayer rules, player
-        @_setup2 rules, players
+            @_setupPlayer rules, player, update
+        @_setup2 rules, players, update
+        @emit 'changed', update
 
     components: (container) ->
         rules = CBGA.getGameRules @rules
