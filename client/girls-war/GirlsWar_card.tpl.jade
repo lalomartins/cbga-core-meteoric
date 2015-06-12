@@ -1,4 +1,4 @@
-.game-card-container.col.col-20
+.game-card-container.col
   .game-card.card(class=cardTypeToClass)
     .item.item-narrow
       if starter
@@ -9,7 +9,7 @@
       i #{cardType} — cost: #{cost}
     .item
       h2= name
-    .item.row.responsive-sm
+    .item.row
       .col
         h3 Skills
         p #{singing} singing

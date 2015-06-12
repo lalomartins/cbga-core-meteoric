@@ -1,9 +1,12 @@
 @require 'nib'
+@require 'rupture'
 
 // Ionic config obviously has to come before the imports
 
 @import '../.meteor/local/build/programs/server/assets/packages/koolaid1551_ionic-stylus/_ionic'
 @import '../.meteor/local/build/programs/server/assets/packages/koolaid1551_ionicons-stylus/_ionicons'
+
+$mediumdark = lighten($dark, 50%)
 
 .platform-web .content
   padding 10px
@@ -13,7 +16,7 @@
   border-radius 0
 
 .item-help
-  color lighten($dark, 50%)
+  color $mediumdark
   border-top none
   padding-top 0
   padding-left 32px
@@ -32,11 +35,14 @@ a.profile-link
   text-align right
 
 .game-panel
-  position relative
+  display flex
+  flex-direction row
+  flex-wrap wrap
+  justify-content space-between
+  align-items stretch
 
   .panel-label
-    color lighten($dark, 50%)
-    position absolute
+    color $mediumdark
     text-align center
     width 100%
     font-size 75%
@@ -44,7 +50,15 @@ a.profile-link
     &:before
       margin-right 0.8rem
 
+  .game-card-container
+    flex 0 0 250px
+    width 250px
+    display flex
+
 .game-card
+  flex 1 1 0
+  margin-top 0
+
   .item
     border-top none
 
@@ -62,6 +76,7 @@ a.profile-link
     .starter-marker
       float right
       text-decoration underline
+      text-decoration-color $mediumdark
 
     &.card-text
       white-space: pre-wrap

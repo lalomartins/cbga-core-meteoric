@@ -1,17 +1,11 @@
 #lineup.game-panel.card
   i.panel-label.ion-search Scouting Lineup
-  with components 'lineup'
-    each makeRows list=this columns=5
-      .row.responsive-md
-        each columns
-          +GirlsWar_card
+  each components 'lineup'
+    +GirlsWar_card
 
 with thisPlayer
 
   #this-player-hand.game-panel.card
     i.panel-label.ion-android-hand Your hand
-    with components 'hand'
-      each makeRows list=this columns=5
-        .row.responsive-md
-          each columns
-            +GirlsWar_card
+    each components 'hand'
+      +GirlsWar_card
