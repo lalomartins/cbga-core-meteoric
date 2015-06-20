@@ -88,6 +88,10 @@ class CBGA.GameRules
         options.transform = _.bind @wrapComponent, @
         CBGA.Components.find selector, options
 
+    # For the UI, you must either have a `uiDefs` or a `uiTemplate` property.
+    # For `uiDefs`, the format is:
+    # {panels: [ui.Panel], componentTypes: [ui.ComponentType]}
+
 CBGA.registerGameRules = (rules) ->
     if gameRules[rules.name]?
         throw new Error "There are already rules with the name '#{rules.name}'."

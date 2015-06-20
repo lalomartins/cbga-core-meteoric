@@ -15,6 +15,7 @@ Package.onUse(function(api) {
     api.use([
         'coffeescript',
         'random',
+        'check',
         'raix:eventemitter',
         'lalomartins:template-helpers'
     ]);
@@ -23,7 +24,8 @@ Package.onUse(function(api) {
         'player.coffee',
         'component.coffee',
         'game.coffee',
-        'rules.coffee'
+        'rules.coffee',
+        'ui.coffee'
     ]);
     api.addFiles([
     ], 'client');
