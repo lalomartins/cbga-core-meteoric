@@ -19,6 +19,9 @@ TemplateHelpers.add
             "#{profile.first} #{profile.last}"
         profile.displayName ? profile.name ? assembled ? user.username
 
+    playerName: (player) ->
+        player.name ? TemplateHelpers.h.displayName player.user()
+
 Template::bindDateDisplay = ->
     @.events
         'touchend .date-display': (event) ->
