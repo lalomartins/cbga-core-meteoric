@@ -41,3 +41,60 @@ class ui.ComponentType
     @displayNamePlural ?= @displayNameSingular
     check @displayNamePlural, String
     check @template, Match.Optional String
+
+  render: (component) ->
+    new Blaze.Template =>
+      component ?= Template.currentData().component
+      template = if @template
+        Template[@template]
+      else
+        rules = component.game().rules
+        Template["#{rules.replace /\s/g, ''}ComponentView"] ? Template.componentDefaultView
+      Blaze.With component, -> template
+
+  summary: (count) ->
+    if count is 1
+      "1 #{@displayNameSingular}"
+    else
+      "#{count} #{@displayNamePlural}"
+
+class ui.Controller extends EventEmitter
+  # does nothing for now, but can be used for instanceof
+
+class ui.PanelContainerContoller extends ui.Controller
+  constructor: ({@rules, @panel, @container} = {}) ->
+    @widget = 'panel'
+    if typeof @rules is 'string'
+      @rules = CBGA.getGameRules @rules
+    check @rules, CBGA.GameRules
+    if typeof @panel is 'string'
+      @panel = _.find @rules.uiDefs.panels, (panel) -> panel.id is @panel
+    check @panel, ui.Panel
+    @id = @panel.id
+    check @container, Match.Optional String
+    @container ?= @panel.id
+
+  componentsFor: (owner) ->
+    CBGA.Components.find _container: [@panel.owner, owner._id, @container],
+      sort: type: 1, position: 1
+      transform: (doc) =>
+        component: @rules.wrapComponent doc
+        type: @rules.getComponentType doc.type
+
+  renderAll: (owner) ->
+    new Blaze.Template =>
+      owner ?= Template.currentData().owner
+      Blaze.Each (=> @componentsFor owner), ->
+        data = Template.currentData()
+        data.type.render()
+
+  summary: (owner) ->
+    owner ?= Template.currentData().owner
+    counts = {}
+    CBGA.Components.find _container: [@panel.owner, owner._id, @container],
+      fields: type: 1
+    .forEach (doc) ->
+      counts[doc.type] ?= 0
+      counts[doc.type] += 1
+    for type, count of counts
+      @rules.getComponentType(type).summary(count)

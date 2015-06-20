@@ -8,6 +8,10 @@ TemplateHelpers.add
         else
             plural
 
+    singleElement: (list) ->
+        if list.length is 1
+            list[0]
+
     avatarUrl: (user) ->
         user.profile?.avatarUrl ? user.defaultAvatar ? '/default-avatar.jpg'
 

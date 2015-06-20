@@ -8,6 +8,9 @@ gameRules = {}
 
 class CBGA.GameRules
     constructor: (@name) ->
+      @_controllers =
+        panel: {}
+        slot: {}
 
     gameClass: null
 
@@ -91,6 +94,40 @@ class CBGA.GameRules
     # For the UI, you must either have a `uiDefs` or a `uiTemplate` property.
     # For `uiDefs`, the format is:
     # {panels: [ui.Panel], componentTypes: [ui.ComponentType]}
+
+    attachController: (arg) ->
+      check arg, Match.OneOf String, CBGA.ui.Controller, CBGA.ui.Panel, CBGA.ui.Slot
+      switch
+        when arg instanceof CBGA.ui.Controller
+          @_controllers[arg.widget][arg.id] = arg
+        when arg instanceof CBGA.ui.Panel
+          @_controllers.panel[arg.id] = new CBGA.ui.PanelContainerContoller
+            rules: @
+            panel: arg
+        when arg instanceof CBGA.ui.Slot
+          throw new Error 'not yet implemented'
+        # else it's a string
+        when arg.indexOf('/') > -1
+          # panel_id/slot_id
+          throw new Error 'not yet implemented'
+        else
+          @_controllers.panel[arg] = new CBGA.ui.PanelContainerContoller
+            rules: @
+            panel: arg
+
+    attachControllersToAllPanels: (slotsToo) ->
+      for panel in @uiDefs.panels
+        @attachController panel
+        if slotsToo
+          for slot in panel.slots
+           if (typeof slotsToo isnt 'function') or slotsToo slot
+             @attachController slot
+
+    getController: (widget, id) ->
+      @_controllers[widget][id]
+
+    getComponentType: (type) ->
+      _.find @uiDefs.componentTypes, (ct) -> ct.name is type
 
 CBGA.registerGameRules = (rules) ->
     if gameRules[rules.name]?

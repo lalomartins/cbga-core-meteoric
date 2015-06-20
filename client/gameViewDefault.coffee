@@ -23,13 +23,15 @@ Template.gameViewDefault.helpers
     game = Template.parentData()
     rules = CBGA.getGameRules game.rules
     name = TemplateHelpers.h.playerName @
-    for panel in rules.uiDefs.panels when panel.owner is 'player'
+    for panel in rules.uiDefs.panels \
+        when panel.owner is 'player' and panel.visibility is 'public'
       id: "player-#{@_id}-#{panel.id}"
       panelClass: "panel-player-#{panel.id}"
       titleAttribution: "#{name}'s "
       icon: getIcon panel.icon
       panel: panel
-      player: @
+      owner: @
+      controller: rules.getController 'panel', panel.id
 
   panelsGame: ->
     rules = CBGA.getGameRules @rules
@@ -38,7 +40,8 @@ Template.gameViewDefault.helpers
       panelClass: "panel-game-#{panel.id}"
       icon: getIcon panel.icon
       panel: panel
-      game: @
+      owner: @
+      controller: rules.getController 'panel', panel.id
 
   panelsOwn: ->
     rules = CBGA.getGameRules @rules
@@ -53,4 +56,5 @@ Template.gameViewDefault.helpers
       titleAttribution: 'Your '
       icon: getIcon panel.icon
       panel: panel
-      player: player
+      owner: player
+      controller: rules.getController 'panel', panel.id

@@ -34,7 +34,9 @@ a.profile-link
 .align-right
   text-align right
 
-#other-players
+.game-area
+.game-panel-group
+.game-panel:not(.game-panel-mini)
   display flex
   flex-direction row
   flex-wrap wrap
@@ -42,12 +44,6 @@ a.profile-link
   align-items stretch
 
 .game-panel-group
-  display flex
-  flex-direction row
-  flex-wrap wrap
-  justify-content space-between
-  align-items stretch
-
   .panel-group-label
     color $mediumdark
     text-align center
@@ -58,17 +54,14 @@ a.profile-link
       display none
 
 .game-panel
-  display flex
-  flex-direction row
-  flex-wrap wrap
-  justify-content space-between
-  align-items stretch
+  min-height 5em
 
   .panel-label
     color $mediumdark
     text-align center
     width 100%
     font-size 75%
+    padding 0 2em
 
     &:before
       margin-right 0.8rem
@@ -77,6 +70,12 @@ a.profile-link
     flex 0 0 250px
     width 250px
     display flex
+
+.game-panel-mini
+  .item
+    border none
+    padding 5px
+    text-align center
 
 .game-card
   flex 1 1 0
@@ -111,3 +110,6 @@ a.profile-link
       &:before
         display inline-block
         margin-right 0.8rem
+
+.token
+  width auto
