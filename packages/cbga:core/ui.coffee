@@ -1,5 +1,7 @@
 ui = CBGA.ui = {}
 
+getNextController = (context) ->
+
 class ui.Panel
   constructor: ({@id, @title, @owner, @visibility, @icon, slots} = {}) ->
     check @id, String
@@ -98,3 +100,40 @@ class ui.PanelContainerContoller extends ui.Controller
       counts[doc.type] += 1
     for type, count of counts
       @rules.getComponentType(type).summary(count)
+
+  # This method sets alternate representations of the component, in case a
+  # player drags it somewhere else, such as a text editor or Facebook post
+  # composition area
+  setDataTransfer: (dataTransfer, element) ->
+    $e = $ element
+    dataTransfer.setData 'text/html', $e.html()
+    dataTransfer.setData 'text/plain', $e.text()
+
+class ui.DragAndDropOperation
+  constructor: (@_id, event) ->
+    @element = event.currentTarget
+    view = Blaze.getView @element
+    while view and view isnt Blaze.currentView
+      data = Blaze.getData view
+      if data.component? and not @component?
+        @component = data.component
+      if data.controller? and not @sourceController?
+        @sourceController = data.controller
+      break if @component? and @sourceController?
+      view = view.parentView
+    event.originalEvent.dataTransfer.setData 'application/vnd-cbga-dnd', @_id
+    @sourceController.setDataTransfer event.originalEvent.dataTransfer, @element
+
+ui.DragAndDropService =
+  _operations: {}
+
+  get: (eventOrId) ->
+    if eventOrId.originalEvent?
+      eventOrId = eventOrId.originalEvent.dataTransfer.getData 'application/vnd-cbga-dnd'
+    if eventOrId.dataTransfer?
+      eventOrId = eventOrId.dataTransfer.getData 'application/vnd-cbga-dnd'
+    @_operations[eventOrId]
+
+  start: (event) ->
+    id = Meteor.uuid()
+    @_operations[id] = new ui.DragAndDropOperation id, event
