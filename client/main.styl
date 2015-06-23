@@ -56,6 +56,7 @@ a.profile-link
 
 .game-panel
   min-height 5em
+  transition(background-color 0.5s ease-out)
 
   .panel-label
     color $mediumdark
@@ -74,6 +75,11 @@ a.profile-link
 
   &.drag-allowed
     background-color $supercalm
+    transition(background-color 0.1s ease-in)
+
+    // fix firing dragleave for children
+    *
+      pointer-events: none
 
 .game-panel-mini
   .item

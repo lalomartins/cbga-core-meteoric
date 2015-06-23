@@ -139,7 +139,10 @@ class ui.PanelContainerContoller extends ui.Controller
       true
 
   handleDragLeave: (event) ->
-    $(event.currentTarget).removeClass 'drag-allowed'
+    if ((event.relatedTarget is null or
+        not event.currentTarget.contains event.relatedTarget) and
+        event.target is event.currentTarget)
+      $(event.currentTarget).removeClass 'drag-allowed'
 
   handleDrop: (event) ->
     $(event.currentTarget).removeClass 'drag-allowed'
@@ -170,7 +173,19 @@ class ui.DragAndDropOperation
     check @component, CBGA.Component
     check @sourceController, ui.Controller
     event.originalEvent.dataTransfer.setData 'application/vnd-cbga-dnd', @_id
+    event.originalEvent.dataTransfer.setData "application/vnd-cbga:#{@_id}", 'dnd'
     @sourceController.setDataTransfer event.originalEvent.dataTransfer, @element
+
+
+getId = (dataTransfer) ->
+  id = dataTransfer.getData 'application/vnd-cbga-dnd'
+  if id
+    id
+  else
+    for type in dataTransfer.types
+      m = type.match /application\/vnd-cbga:(.*)/
+      if m
+        return m[1]
 
 
 class DragAndDropService
@@ -179,20 +194,21 @@ class DragAndDropService
 
   get: (eventOrId) ->
     if eventOrId.originalEvent?
-      eventOrId = eventOrId.originalEvent.dataTransfer.getData 'application/vnd-cbga-dnd'
-    if eventOrId.dataTransfer?
-      eventOrId = eventOrId.dataTransfer.getData 'application/vnd-cbga-dnd'
+      eventOrId = getId eventOrId.originalEvent.dataTransfer
+    if eventOrId?.dataTransfer?
+      eventOrId = getId eventOrId.dataTransfer
     @_operations[eventOrId]
 
   start: (event) ->
-    id = Meteor.uuid()
+    id = CBGA._shortIdCaseInsensitive()
     @_operations[id] = new ui.DragAndDropOperation id, event
 
   discard: (eventOrId) ->
     operation = @get eventOrId
-    Meteor.setTimeout =>
-      delete @_operations[operation._id]
-    , 1000
+    if operation?
+      Meteor.setTimeout =>
+        delete @_operations[operation._id]
+      , 1000
 
   installHandlers: (template,
                     componentSelector = '.component[draggable]',

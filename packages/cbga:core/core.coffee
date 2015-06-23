@@ -24,6 +24,64 @@ class CBGA._DbModelBase extends EventEmitter
         @on 'changed', (update) ->
             collection.update @_id, update
 
+digits64 = _.toArray '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-.'
+
+CBGA._str64 = (number) ->
+    digits = []
+    oct = number.toString 8
+    if oct.length % 2
+        oct = '0' + oct
+    while oct
+        head = oct.substr 0, 2
+        oct = oct.substr 2
+        digits.push digits64[Number.parseInt head, 8]
+    digits.join ''
+
+CBGA._parse64 = (str) ->
+    number = 0
+    for digit in _.toArray str
+        number *= 64
+        dv = digits64.indexOf digit
+        if dv is -1
+            throw new TypeError 'Value is not a 64-base number'
+        number += dv
+    number
+
+CBGA._shortId = (length = 7) ->
+    if window?.crypto?.getRandomValues?
+        array = new Uint32Array 1
+        generator = ->
+            window.crypto.getRandomValues array
+            array[0]
+    else
+        generator = ->
+            Math.floor Random.fraction() * 0xffffffff
+    id = CBGA._str64 new Date().valueOf() % 262143
+    while id.length < length
+        n = CBGA._str64 generator()
+        while n.length < 4
+            n = '0' + n
+        id += n
+    id.substr 0, length
+
+CBGA._shortIdCaseInsensitive = (length = 10) ->
+    if window?.crypto?.getRandomValues?
+        array = new Uint32Array 1
+        generator = ->
+            window.crypto.getRandomValues array
+            array[0]
+    else
+        generator = ->
+            Math.floor Random.fraction() * 0xffffffff
+    id = (new Date().valueOf() % 1679615).toString 36
+    while id.length < length
+        n = generator().toString 36
+        while n.length < 5
+            n = '0' + n
+        id += n
+    id.substr 0, length
+
+
 class CBGA.GameError extends Error
     constructor: (@message) ->
         @name = 'GameError'
