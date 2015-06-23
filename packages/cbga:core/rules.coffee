@@ -1,4 +1,4 @@
-gameRules = {}
+share.gameRules = {}
 
 # There are two ways to define your own rules:
 # 1: Instantiate GameRules, passing a name, and assign to gameClass,
@@ -130,10 +130,22 @@ class CBGA.GameRules
       _.find @uiDefs.componentTypes, (ct) -> ct.name is type
 
 CBGA.registerGameRules = (rules) ->
-    if gameRules[rules.name]?
-        throw new Error "There are already rules with the name '#{rules.name}'."
-    gameRules[rules.name] = rules
-    @
+  if share.gameRules[rules.name]?
+    throw new Error "There are already rules with the name '#{rules.name}'."
+  share.gameRules[rules.name] = rules
+  share.setupAllows()
+  @
 
-CBGA.getGameRules = (name) ->
-    gameRules[name]
+CBGA.getGameRules = (nameOrDoc) ->
+  check nameOrDoc, Match.OneOf String, Match.ObjectIncluding(_game: String), Match.ObjectIncluding(rules: String)
+  if nameOrDoc._game?
+    gameDoc = CBGA.Games.findOne nameOrDoc._game
+    unless gameDoc?
+      throw new CBGA.GameError "Couldn't find game '#{doc.game}'"
+    nameOrDoc = gameDoc.rules
+  else
+    nameOrDoc = nameOrDoc.rules if nameOrDoc.rules?
+  rules = share.gameRules[nameOrDoc]
+  unless rules?
+    throw new CBGA.GameError "Couldn't find rules for '#{nameOrDoc}'"
+  rules

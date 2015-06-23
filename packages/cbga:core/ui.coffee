@@ -200,7 +200,7 @@ class DragAndDropService
     @_operations[eventOrId]
 
   start: (event) ->
-    id = CBGA._shortIdCaseInsensitive()
+    id = CBGA.utils.shortIdCaseInsensitive()
     @_operations[id] = new ui.DragAndDropOperation id, event
 
   discard: (eventOrId) ->

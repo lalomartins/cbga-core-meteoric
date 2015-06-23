@@ -10,13 +10,7 @@ class CBGA.Component extends CBGA._DbModelBase
         @_container = container?._toDb?() ? container
 
     @_wrap: (doc) ->
-        gameDoc = CBGA.Games.findOne doc._game
-        unless gameDoc?
-            throw new CBGA.GameError "Couldn't find game '#{doc.game}'"
-        rules = CBGA.getGameRules gameDoc.rules
-        unless rules?
-            throw new CBGA.GameError "Couldn't find rules for '#{gameDoc.rules}'"
-        rules.wrapComponent doc
+        (CBGA.getGameRules doc).wrapComponent doc
 
     game: -> CBGA.Games.findOne @_game
     container: -> CBGA.Container._wrap @_container

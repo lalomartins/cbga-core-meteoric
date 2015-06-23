@@ -24,63 +24,6 @@ class CBGA._DbModelBase extends EventEmitter
         @on 'changed', (update) ->
             collection.update @_id, update
 
-digits64 = _.toArray '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-.'
-
-CBGA._str64 = (number) ->
-    digits = []
-    oct = number.toString 8
-    if oct.length % 2
-        oct = '0' + oct
-    while oct
-        head = oct.substr 0, 2
-        oct = oct.substr 2
-        digits.push digits64[Number.parseInt head, 8]
-    digits.join ''
-
-CBGA._parse64 = (str) ->
-    number = 0
-    for digit in _.toArray str
-        number *= 64
-        dv = digits64.indexOf digit
-        if dv is -1
-            throw new TypeError 'Value is not a 64-base number'
-        number += dv
-    number
-
-CBGA._shortId = (length = 7) ->
-    if window?.crypto?.getRandomValues?
-        array = new Uint32Array 1
-        generator = ->
-            window.crypto.getRandomValues array
-            array[0]
-    else
-        generator = ->
-            Math.floor Random.fraction() * 0xffffffff
-    id = CBGA._str64 new Date().valueOf() % 262143
-    while id.length < length
-        n = CBGA._str64 generator()
-        while n.length < 4
-            n = '0' + n
-        id += n
-    id.substr 0, length
-
-CBGA._shortIdCaseInsensitive = (length = 10) ->
-    if window?.crypto?.getRandomValues?
-        array = new Uint32Array 1
-        generator = ->
-            window.crypto.getRandomValues array
-            array[0]
-    else
-        generator = ->
-            Math.floor Random.fraction() * 0xffffffff
-    id = (new Date().valueOf() % 1679615).toString 36
-    while id.length < length
-        n = generator().toString 36
-        while n.length < 5
-            n = '0' + n
-        id += n
-    id.substr 0, length
-
 
 class CBGA.GameError extends Error
     constructor: (@message) ->
@@ -118,7 +61,44 @@ CBGA.findGame = (selector) ->
 CBGA.options = {}
 
 CBGA.setupCollections = ->
-    CBGA.Games = new Meteor.Collection CBGA.options?.names?.games ? 'games'
-    CBGA.Players = new Meteor.Collection CBGA.options?.names?.players ? 'players'
-    CBGA.Components = new Meteor.Collection CBGA.options?.names?.components ? 'components'
+    CBGA.Games = new Mongo.Collection CBGA.options?.names?.games ? 'games'
+    CBGA.Players = new Mongo.Collection CBGA.options?.names?.players ? 'players'
+    CBGA.Components = new Mongo.Collection CBGA.options?.names?.components ? 'components'
+
+    CBGA.Players.deny
+        update: (userId, doc, fieldNames) ->
+            _.any fieldNames, (name) -> name is '_game' or name is '_user'
+    CBGA.Components.deny
+        update: (userId, doc, fieldNames, modifier) ->
+            debugger
+            return true if _.any fieldNames, (name) -> name is '_game' or name is 'type'
+            result = CBGA.utils.simulateMongoUpdate doc, modifier
+            return true unless result._container instanceof Array and \
+                result._container.length is 3 and \
+                _.every result._container, (s) -> typeof s is 'string'
+            false
+    share.setupAllows()
+
     @
+
+# Pattern: all your allows and deny functions should start with (CS/JS):
+#   return unless CBGA.getGameRules(doc) is MyRulesObject
+#   if(CBGA.getGameRules(doc) !== MyRulesObject) return;
+# Be VERY CAREFUL with allowing inserts! In most cases, they shouldn't be
+# allowed at all, and creating objects should be done by methods.
+allowsDone = []
+deniesDone = []
+setupClassAllows = (_class, collection) ->
+    if _class.allow? and allowsDone.indexOf(_class) is -1
+        allowsDone.push _class
+        collection.allow _class.allow
+    if _class.deny? and deniesDone.indexOf(_class) is -1
+        deniesDone.push _class
+        collection.deny _class.deny
+
+share.setupAllows = ->
+    return unless CBGA.Games?
+    for name, rules of share.gameRules
+        setupClassAllows rules.gameClass, CBGA.Games
+        setupClassAllows rules.playerClass, CBGA.Players
+        setupClassAllows rules.componentClass, CBGA.Components

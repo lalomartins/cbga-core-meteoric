@@ -13,10 +13,7 @@ class CBGA.Game extends CBGA._DbModelBase
         @log = []
 
     @_wrap: (doc) ->
-        rules = CBGA.getGameRules doc.rules
-        unless rules?
-            throw new CBGA.GameError "Couldn't find rules for '#{doc.rules}'"
-        rules.wrapGame doc
+        (CBGA.getGameRules doc).wrapGame doc
 
     owner: ->
         Meteor.users.findOne @_owner

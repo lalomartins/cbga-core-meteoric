@@ -5,8 +5,7 @@ class CBGA.Player extends CBGA._DbModelBase
         @_game = game._id ? game
 
     @_wrap: (doc) ->
-        CBGA.getGameRules @game().rules
-        .wrapPlayer doc
+        (CBGA.getGameRules doc).wrapPlayer doc
 
     game: ->
         CBGA.findGame @_game
