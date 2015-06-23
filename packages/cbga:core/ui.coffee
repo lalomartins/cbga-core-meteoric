@@ -2,11 +2,13 @@ ui = CBGA.ui = {}
 
 getNextController = (context) ->
 
+
 class ui.Panel
-  constructor: ({@id, @title, @owner, @visibility, @icon, slots} = {}) ->
+  constructor: ({@id, @title, @owner, @visibility, @icon, @contains, slots} = {}) ->
     check @id, String
     @owner ?= 'game'
     @visibility ?= 'public'
+    check @contains, Match.Optional [String]
     @slots = {}
     for slot in slots ? []
       if slot instanceof ui.Slot
@@ -17,11 +19,13 @@ class ui.Panel
       else if typeof slot is 'object'
         @slots[slot.id] = new ui.Slot id: slot.id, title: slot.title, panel: @
 
+
 # Slots are really later on in the backlog, but here's the API anyway
 class ui.Slot
   constructor: ({@id, @title, @panel} = {}) ->
     check @id, String
     check @panel, ui.Panel
+
 
 class ui.ComponentType
   constructor: ({@name, @width, @height, @isCounter, @stackProperty, @stackAfter,
@@ -60,8 +64,10 @@ class ui.ComponentType
     else
       "#{count} #{@displayNamePlural}"
 
+
 class ui.Controller extends EventEmitter
   # does nothing for now, but can be used for instanceof
+
 
 class ui.PanelContainerContoller extends ui.Controller
   constructor: ({@rules, @panel, @container} = {}) ->
@@ -101,6 +107,18 @@ class ui.PanelContainerContoller extends ui.Controller
     for type, count of counts
       @rules.getComponentType(type).summary(count)
 
+  getOwner: (elementOrView) ->
+    # elementOrView can also be undefined for the current view
+    if elementOrView instanceof Blaze.View
+      view = elementOrView
+    else
+      view = Blaze.getView(elementOrView)
+    while view
+      data = Blaze.getData view
+      if data.owner? and data.controller is @
+        return data.owner
+    null
+
   # This method sets alternate representations of the component, in case a
   # player drags it somewhere else, such as a text editor or Facebook post
   # composition area
@@ -108,6 +126,33 @@ class ui.PanelContainerContoller extends ui.Controller
     $e = $ element
     dataTransfer.setData 'text/html', $e.html()
     dataTransfer.setData 'text/plain', $e.text()
+
+  handleDragOver: (event) ->
+    operation = ui.DragAndDropService.get event
+    return unless operation
+    owner = @getOwner(event.currentTarget)
+    return if operation.sourceOwner._id is owner._id and operation.sourceController is @
+    if (not @panel.contains?) or \
+       @panel.contains.indexOf(operation.component.type) > -1
+      $(event.currentTarget).addClass 'drag-allowed'
+      event.preventDefault()
+      true
+
+  handleDragLeave: (event) ->
+    $(event.currentTarget).removeClass 'drag-allowed'
+
+  handleDrop: (event) ->
+    $(event.currentTarget).removeClass 'drag-allowed'
+    operation = ui.DragAndDropService.get event
+    return unless operation
+    event.preventDefault()
+    owner = @getOwner(event.currentTarget)
+    @doMoveComponent operation.component, owner
+
+  # override this to set other properties (e.g. position) on move
+  doMoveComponent: (component, owner) ->
+    component.moveTo [@panel.owner, owner._id, @container]
+
 
 class ui.DragAndDropOperation
   constructor: (@_id, event) ->
@@ -117,15 +162,20 @@ class ui.DragAndDropOperation
       data = Blaze.getData view
       if data.component? and not @component?
         @component = data.component
-      if data.controller? and not @sourceController?
+      if data.controller? and data.owner? and not @sourceController?
         @sourceController = data.controller
+        @sourceOwner = data.owner
       break if @component? and @sourceController?
       view = view.parentView
+    check @component, CBGA.Component
+    check @sourceController, ui.Controller
     event.originalEvent.dataTransfer.setData 'application/vnd-cbga-dnd', @_id
     @sourceController.setDataTransfer event.originalEvent.dataTransfer, @element
 
-ui.DragAndDropService =
-  _operations: {}
+
+class DragAndDropService
+  constructor: ->
+    @_operations = {}
 
   get: (eventOrId) ->
     if eventOrId.originalEvent?
@@ -137,3 +187,33 @@ ui.DragAndDropService =
   start: (event) ->
     id = Meteor.uuid()
     @_operations[id] = new ui.DragAndDropOperation id, event
+
+  discard: (eventOrId) ->
+    operation = @get eventOrId
+    Meteor.setTimeout =>
+      delete @_operations[operation._id]
+    , 1000
+
+  installHandlers: (template,
+                    componentSelector = '.component[draggable]',
+                    panelSelector = '.game-panel') ->
+    handlers = {}
+    handlers["dragstart #{componentSelector}"] = (event, ti) =>
+      @start event
+      true
+
+    handlers["dragend #{componentSelector}"] = (event, ti) =>
+      @discard event
+
+    handlers["dragover #{panelSelector}"] = (event) ->
+      @controller.handleDragOver event
+
+    handlers["dragleave #{panelSelector}"] = (event) ->
+      @controller.handleDragLeave event
+
+    handlers["drop #{panelSelector}"] = (event) ->
+      @controller.handleDrop event
+
+    template.events handlers
+
+ui.DragAndDropService = new DragAndDropService()

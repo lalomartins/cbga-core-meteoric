@@ -7,6 +7,7 @@
 @import '../.meteor/local/build/programs/server/assets/packages/koolaid1551_ionicons-stylus/_ionicons'
 
 $mediumdark = lighten($dark, 50%)
+$supercalm = lighten($calm, 90%)
 
 .platform-web .content
   padding 10px
@@ -71,11 +72,15 @@ a.profile-link
     width 250px
     display flex
 
+  &.drag-allowed
+    background-color $supercalm
+
 .game-panel-mini
   .item
     border none
     padding 5px
     text-align center
+    background-color transparent
 
 .game-card
   flex 1 1 0

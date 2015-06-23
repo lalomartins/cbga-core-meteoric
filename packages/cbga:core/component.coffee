@@ -23,7 +23,7 @@ class CBGA.Component extends CBGA._DbModelBase
 
     moveTo: (container, properties) ->
         properties ?= {}
-        properties._container = container._toDb()
+        properties._container = container._toDb?() ? container
         for name, value of properties
             @[name] = value
         @emit 'changed', $set: properties
