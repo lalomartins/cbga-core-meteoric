@@ -18,6 +18,8 @@ class CBGA.Component extends CBGA._DbModelBase
     moveTo: (container, properties) ->
         properties ?= {}
         properties._container = container._toDb?() ? container
+        if properties._container[1]._id?
+            properties._container[1] = properties._container[1]._id
         for name, value of properties
             @[name] = value
         @emit 'changed', $set: properties
@@ -56,7 +58,7 @@ class CBGA.Container
         rulesName = if @type is 'game'
             @owner.rules
         else
-            @owner.game().rules
+            CBGA.Games.findOne(@owner._game).rules
         @rules = CBGA.getGameRules rulesName
         unless @owner instanceof CBGA._DbModelBase
             rulesName = if @type is 'game'
@@ -76,3 +78,33 @@ class CBGA.Container
         if typeof selector isnt 'string'
             selector._container = @_toDb()
         @rules.findComponents selector, options
+
+    # For completeness, because I surprised myself expecting it to exist
+    findOne: (selector, options) ->
+        options ?= {}
+        options.limit = 1
+        @find(selector, options).fetch()[0]
+
+class CBGA.OrderedContainer extends CBGA.Container
+    find: (selector, options) ->
+        options ?= {}
+        options.sort ?= position: 1
+        super selector, options
+
+    shuffle: ->
+        ids = _.pluck CBGA.Components.find(_container: @_toDb(),
+            fields: _id: 1
+        ).fetch(), '_id'
+        _.shuffle ids
+        @repack ids
+
+    repack: (ids) ->
+        unless ids?
+            ids = _.pluck CBGA.Components.find(_container: @_toDb(),
+                fields: _id: 1
+            ).fetch(), '_id'
+        position = 0
+        for id in ids
+            CBGA.Components.update id, $set: position: id
+            position += 1
+        position
