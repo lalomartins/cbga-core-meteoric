@@ -94,29 +94,59 @@ a.profile-link
 
   .item
     border-top none
-
-    &.item-narrow
-      padding-top: 0
-      padding-bottom: 0
-      font-size: 80%
-
-      & + .item
-        padding-top: 3px
+    border-bottom none
 
     i
-      font-style: italic
+      font-style italic
 
-    .starter-marker
-      float right
-      text-decoration underline
-      text-decoration-color $mediumdark
+    &.card-heading
+      padding 0 3px
+      font-size 80%
+
+      .card-cost
+      .card-type
+      .starter-marker
+        vertical-align top
+
+      .card-cost
+        float left
+        font-size 300%
+        line-height 100%
+        margin-right 5px
+        margin-top 4px
+
+      .starter-marker
+      .card-type
+        font-size 75%
+
+      .card-type
+        display inline-block
+
+      .starter-marker
+        float right
+        text-decoration underline
+        text-decoration-color $mediumdark
+
+    &.traits-and-skills
+      margin-top 9px
+      border-top none
 
     &.card-text
-      white-space: pre-wrap
+      white-space normal
 
-      &::first-line
+      .special-text
+        white-space pre-wrap
+
+      .special-title
+        display inline-block
         font-weight bold
         font-size 110%
+
+      .special-label
+        display inline-block
+        font-style italic
+        font-size 60%
+        vertical-align top
 
       &:before
         display inline-block
