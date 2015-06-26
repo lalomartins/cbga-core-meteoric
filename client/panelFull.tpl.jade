@@ -2,4 +2,7 @@
   i.panel-label(class=icon)
     i.panel-title-attribution= titleAttribution
     = panel.title
-  +controller.renderAll
+  +controller.renderFull
+  if controller.hasCounters
+    .item.panel-counters
+      +controller.renderSummary

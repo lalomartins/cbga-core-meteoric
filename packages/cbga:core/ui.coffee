@@ -97,18 +97,29 @@ class ui.PanelContainerContoller extends ui.Controller
     check @container, Match.Optional String
     @container ?= @panel.id
 
-  renderAll: (owner) ->
-    if @panel.contains?.length > 1
+  hasCounters: ->
+    _.any (@panel.contains ? []), (typeName) =>
+      type = @rules.getComponentType typeName
+      type.isCounter
+
+  renderSummary: (owner) ->
+    if @panel.contains?
       new Blaze.Template =>
         owner ?= Template.currentData().owner
         _.map @panel.contains, (typeName) =>
           type = @rules.getComponentType typeName
           if type.isCounter
             type.renderSummary @getContainer owner
-          else
+
+  renderFull: (owner) ->
+    if @panel.contains?
+      new Blaze.Template =>
+        owner ?= Template.currentData().owner
+        _.map @panel.contains, (typeName) =>
+          type = @rules.getComponentType typeName
+          unless type.isCounter
             Blaze.Each (=> @getContainer(owner).find type: typeName), =>
               component = Template.currentData()
-              type = @rules.getComponentType component.type
               type.render component
     else
       new Blaze.Template =>
