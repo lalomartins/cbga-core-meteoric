@@ -4,11 +4,14 @@ getNextController = (context) ->
 
 
 class ui.Panel
-  constructor: ({@id, @title, @owner, @visibility, @icon, @contains, slots} = {}) ->
+  constructor: ({@id, @title, @owner, @visibility, @icon, @contains,
+                 @containerClass, slots} = {}) ->
     check @id, String
     @owner ?= 'game'
     @visibility ?= 'public'
     check @contains, Match.Optional [String]
+    @containerClass ?= CBGA.Container
+    check @containerClass, CBGA.Match.ClassOrSubclass CBGA.Container
     @slots = {}
     for slot in slots ? []
       if slot instanceof ui.Slot
@@ -82,17 +85,10 @@ class ui.PanelContainerContoller extends ui.Controller
     check @container, Match.Optional String
     @container ?= @panel.id
 
-  componentsFor: (owner) ->
-    CBGA.Components.find _container: [@panel.owner, owner._id, @container],
-      sort: type: 1, position: 1
-      transform: (doc) =>
-        component: @rules.wrapComponent doc
-        type: @rules.getComponentType doc.type
-
   renderAll: (owner) ->
     new Blaze.Template =>
       owner ?= Template.currentData().owner
-      Blaze.Each (=> @componentsFor owner), ->
+      Blaze.Each (=> @getContainer(owner).find()), ->
         data = Template.currentData()
         data.type.render()
 
@@ -152,9 +148,10 @@ class ui.PanelContainerContoller extends ui.Controller
     owner = @getOwner(event.currentTarget)
     @doMoveComponent operation.component, owner
 
-  # override this to set other properties (e.g. position) on move
+  # Override this to set other properties on move; but ideally don't, if
+  # possible, that should be done in the container class instead
   doMoveComponent: (component, owner) ->
-    component.moveTo [@panel.owner, owner._id, @container]
+    component.moveTo @getContainer owner
 
 
 class ui.DragAndDropOperation

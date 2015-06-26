@@ -70,3 +70,12 @@ CBGA.utils =
     result._id = _id
     simulationCollection.remove doc._id
     result
+
+CBGA.Match =
+  ClassOrSubclass: (cls) ->
+    # Match.OneOf cls, Match.ObjectIncluding prototype: cls
+    Match.Where (x) ->
+      if x is cls or x?.prototype instanceof cls
+        true
+      else
+        throw new Match.Error "Expected #{cls.name ? 'class'} or subclass"
