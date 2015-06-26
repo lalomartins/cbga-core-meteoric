@@ -61,24 +61,56 @@ class ui.ComponentType
         Template["#{rules.replace /\s/g, ''}ComponentView"] ? Template.componentDefaultView
       Blaze.With component, -> template
 
-  summary: (count) ->
-    if count is 1
-      "1 #{@displayNameSingular}"
+  summary: (count, stack) ->
+    if stack?
+      if count is 1
+        "1 #{stack} #{@displayNameSingular}"
+      else
+        "#{count} #{stack} #{@displayNamePlural}"
     else
-      "#{count} #{@displayNamePlural}"
+      if count is 1
+        "1 #{@displayNameSingular}"
+      else
+        "#{count} #{@displayNamePlural}"
 
   renderSummary: (container) ->
-    new Blaze.Template =>
-      container ?= Template.currentData()
-      template = if @template
-        Template[@template]
-      else
-        rules = container.rules.name
-        Template["#{rules.replace /\s/g, ''}ComponentSummary"] ? Template.componentDefaultSummary
-      cursor = container.find type: @name
-      Blaze.With @, ->
-        Blaze.With (-> cursor.count()), -> template
-
+    if @stackProperty?
+      # oh boy
+      new Blaze.Template =>
+        container ?= Template.currentData()
+        template = if @template
+          Template[@template]
+        else
+          rules = container.rules.name
+          Template["#{rules.replace /\s/g, ''}ComponentSummary"] ? Template.componentDefaultSummary
+        # Since this is a template render function, it's already reactive
+        values = {}
+        fields = {}
+        fields[@stackProperty] = 1
+        # Go directly to the collection to sidestep the transform
+        # (could also use transform=null but this is faster)
+        CBGA.Components.find type: @name, _container: container._toDb(),
+          fields: fields
+        .forEach (doc) =>
+          values[doc[@stackProperty]] = true
+          return
+        # Again, needs to consider stackAfter
+        _.map _.keys(values), (value) =>
+          selector = type: @name
+          selector[@stackProperty] = value
+          cursor = container.find selector
+          Blaze.With (=> type: @, stack: value, count: cursor.count()), ->
+            template
+    else
+      new Blaze.Template =>
+        container ?= Template.currentData()
+        template = if @template
+          Template[@template]
+        else
+          rules = container.rules.name
+          Template["#{rules.replace /\s/g, ''}ComponentSummary"] ? Template.componentDefaultSummary
+        cursor = container.find type: @name
+        Blaze.With (=> type: @, count: cursor.count()), -> template
 
 class ui.Controller extends EventEmitter
   # does nothing for now, but can be used for instanceof
@@ -102,7 +134,8 @@ class ui.PanelContainerContoller extends ui.Controller
       type = @rules.getComponentType typeName
       type.isCounter
 
-  renderSummary: (owner) ->
+  renderCounters: (owner) ->
+    # XXX: this isn't right at all, it should consider stackAfter
     if @panel.contains?
       new Blaze.Template =>
         owner ?= Template.currentData().owner
@@ -133,11 +166,14 @@ class ui.PanelContainerContoller extends ui.Controller
   summary: (owner) ->
     owner ?= Template.currentData().owner
     counts = {}
+    # Go directly to the collection to sidestep the transform
+    # (could also use transform=null but this is faster)
     CBGA.Components.find _container: [@panel.owner, owner._id, @container],
       fields: type: 1
     .forEach (doc) ->
       counts[doc.type] ?= 0
       counts[doc.type] += 1
+      return
     for type, count of counts
       @rules.getComponentType(type).summary(count)
 
