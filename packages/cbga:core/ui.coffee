@@ -67,6 +67,18 @@ class ui.ComponentType
     else
       "#{count} #{@displayNamePlural}"
 
+  renderSummary: (container) ->
+    new Blaze.Template =>
+      container ?= Template.currentData()
+      template = if @template
+        Template[@template]
+      else
+        rules = container.rules.name
+        Template["#{rules.replace /\s/g, ''}ComponentSummary"] ? Template.componentDefaultSummary
+      cursor = container.find type: @name
+      Blaze.With @, ->
+        Blaze.With (-> cursor.count()), -> template
+
 
 class ui.Controller extends EventEmitter
   # does nothing for now, but can be used for instanceof
@@ -86,12 +98,26 @@ class ui.PanelContainerContoller extends ui.Controller
     @container ?= @panel.id
 
   renderAll: (owner) ->
-    new Blaze.Template =>
-      owner ?= Template.currentData().owner
-      Blaze.Each (=> @getContainer(owner).find()), =>
-        component = Template.currentData()
-        type = @rules.getComponentType component.type
-        type.render component
+    if @panel.contains?.length > 1
+      new Blaze.Template =>
+        owner ?= Template.currentData().owner
+        _.map @panel.contains, (typeName) =>
+          type = @rules.getComponentType typeName
+          if type.isCounter
+            type.renderSummary @getContainer owner
+          else
+            Blaze.Each (=> @getContainer(owner).find type: typeName), =>
+              component = Template.currentData()
+              type = @rules.getComponentType component.type
+              type.render component
+    else
+      new Blaze.Template =>
+        owner ?= Template.currentData().owner
+        [Blaze.Each (=> @getContainer(owner).find()), =>
+          component = Template.currentData()
+          type = @rules.getComponentType component.type
+          type.render component
+        ]
 
   summary: (owner) ->
     owner ?= Template.currentData().owner
