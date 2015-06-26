@@ -53,7 +53,7 @@ class ui.ComponentType
 
   render: (component) ->
     new Blaze.Template =>
-      component ?= Template.currentData().component
+      component ?= Template.currentData()
       template = if @template
         Template[@template]
       else
@@ -88,9 +88,10 @@ class ui.PanelContainerContoller extends ui.Controller
   renderAll: (owner) ->
     new Blaze.Template =>
       owner ?= Template.currentData().owner
-      Blaze.Each (=> @getContainer(owner).find()), ->
-        data = Template.currentData()
-        data.type.render()
+      Blaze.Each (=> @getContainer(owner).find()), =>
+        component = Template.currentData()
+        type = @rules.getComponentType component.type
+        type.render component
 
   summary: (owner) ->
     owner ?= Template.currentData().owner
@@ -114,6 +115,10 @@ class ui.PanelContainerContoller extends ui.Controller
       if data.owner? and data.controller is @
         return data.owner
     null
+
+  getContainer: (owner) ->
+    owner ?= @getOwner()
+    new @panel.containerClass [@panel.owner, owner, @panel.id]
 
   # This method sets alternate representations of the component, in case a
   # player drags it somewhere else, such as a text editor or Facebook post
@@ -146,12 +151,17 @@ class ui.PanelContainerContoller extends ui.Controller
     return unless operation
     event.preventDefault()
     owner = @getOwner(event.currentTarget)
-    @doMoveComponent operation.component, owner
+    @doMoveComponent operation.component, owner,
+      operation.sourceController.getContainer operation.sourceOwner
 
   # Override this to set other properties on move; but ideally don't, if
   # possible, that should be done in the container class instead
-  doMoveComponent: (component, owner) ->
+  doMoveComponent: (component, owner, oldContainer) ->
     component.moveTo @getContainer owner
+    # This should probably be on Container, but it's a bit messy wrt container
+    # classes right now, and that's going to be refactored next thing, so for
+    # now here works
+    oldContainer?.componentRemoved?(component)
 
 
 class ui.DragAndDropOperation
@@ -160,8 +170,8 @@ class ui.DragAndDropOperation
     view = Blaze.getView @element
     while view and view isnt Blaze.currentView
       data = Blaze.getData view
-      if data.component? and not @component?
-        @component = data.component
+      if data instanceof CBGA.Component and not @component?
+        @component = data
       if data.controller? and data.owner? and not @sourceController?
         @sourceController = data.controller
         @sourceOwner = data.owner

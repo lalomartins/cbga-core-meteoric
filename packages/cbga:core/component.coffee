@@ -13,6 +13,7 @@ class CBGA.Component extends CBGA._DbModelBase
     (CBGA.getGameRules doc).wrapComponent doc
 
   game: -> CBGA.Games.findOne @_game
+  # XXX must subclass to override container class, there's probably a better way
   container: -> CBGA.Container._wrap @_container
 
   moveTo: (container, properties) ->
@@ -125,3 +126,6 @@ class CBGA.OrderedContainer extends CBGA.Container
     # (If yours is, subclass and do something more clever)
     last = @last()
     properties.position = last.position + 1
+
+  componentRemoved: (component) ->
+    @repack()
