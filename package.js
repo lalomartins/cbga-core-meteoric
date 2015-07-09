@@ -1,22 +1,79 @@
 Package.describe({
   name: 'cbga:core-meteoric',
   version: '0.0.1',
-  // Brief, one-line summary of the package.
-  summary: '',
-  // URL to the Git repository containing the source code for this package.
-  git: '',
-  // By default, Meteor will default to using README.md for documentation.
-  // To avoid submitting documentation, set this field to null.
-  documentation: 'README.md'
+  summary: 'Card and Board Game App core UI, with Meteoric',
+  git: 'https://github.com/lalomartins/cbga-core.git',
+  documentation: 'README.md',
 });
 
 Package.onUse(function(api) {
   api.versionsFrom('1.1.0.2');
-  api.addFiles('core-meteoric.js');
-});
+  api.use([
+    'accounts-password',
+    'blaze',
+    'check',
+    'coffeescript',
+    'mongo',
+    'random',
+    'templating',
+    'underscore',
 
-Package.onTest(function(api) {
-  api.use('tinytest');
-  api.use('cbga:core-meteoric');
-  api.addFiles('core-meteoric-tests.js');
+    'bengott:avatar',
+    'fortawesome:fontawesome',
+    'iron:router',
+    'koolaid1551:ionicons-stylus',
+    'koolaid1551:ionic-stylus',
+    'meteorhacks:fast-render',
+    'meteoric:ionic',
+    'momentjs:moment',
+    'mondora:connect-with',
+    'mquandalle:jade',
+    'mquandalle:stylus',
+    'raix:eventemitter',
+    'splendido:accounts-meld',
+    'useraccounts:ionic',
+
+    'lalomartins:template-helpers',
+
+    'cbga:core',
+  ]);
+  api.imply([
+    'cbga:core',
+  ]);
+  api.addFiles([
+    'routes.coffee',
+  ]);
+  api.addFiles([
+    'default-avatar.jpg',
+    'main.styl',
+    'main.coffee',
+    'parts.jade',
+    'accountWrappers.jade',
+    'accountWrappers.coffee',
+    'componentDefaultSummary.tpl.jade',
+    'componentDefaultSummary.coffee',
+    'gameSetup.tpl.jade',
+    'gameSetup.coffee',
+    'gameView.tpl.jade',
+    'gameView.coffee',
+    'gameViewDefault.tpl.jade',
+    'gameViewDefault.coffee',
+    'head.tpl.jade',
+    'home.tpl.jade',
+    'home.coffee',
+    'landing.tpl.jade',
+    'layout.tpl.jade',
+    'notFound.tpl.jade',
+    'panelFull.tpl.jade',
+    'panelMini.tpl.jade',
+    'profileCard.tpl.jade',
+    'profile.tpl.jade',
+    'profile.coffee',
+    'profileEdit.tpl.jade',
+    'profileEdit.coffee',
+  ], 'client');
+  api.addFiles([
+  ], 'server');
+  api.addFiles([
+  ], 'web.cordova');
 });
