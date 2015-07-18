@@ -1,3 +1,3 @@
-Template.componentDefaultSummary.helpers
+Template.counterSummaryDefault.helpers
   summary: ->
     @type.summary @count, @stack
