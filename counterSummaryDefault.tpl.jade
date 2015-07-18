@@ -1,2 +1,5 @@
 if count
-  .item.counter-summary= summary
+  if type.draggable
+    .item.component.counter-summary(draggable='true')= summary
+  else
+    .item.counter-summary= summary

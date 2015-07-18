@@ -1,1 +1,5 @@
-.item.counter-token= type.displayNameSingular
+with ..
+  if type.draggable
+    .item.component.counter-token(draggable='true')= type.displayNameSingular
+  else
+    .item.counter-token= type.displayNameSingular

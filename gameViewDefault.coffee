@@ -58,3 +58,7 @@ Template.gameViewDefault.helpers
       panel: panel
       owner: player
       controller: rules.getController 'panel', panel.id
+
+Template.gameViewDefault.events
+  'click .game-panel .panel-label': (event) ->
+    $(event.currentTarget.parentElement).toggleClass 'collapsed'

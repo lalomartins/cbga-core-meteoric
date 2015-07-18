@@ -3,8 +3,8 @@
 
 // Ionic config obviously has to come before the imports
 
-@import '.meteor/local/build/programs/server/assets/packages/koolaid1551_ionic-stylus/_ionic'
-@import '.meteor/local/build/programs/server/assets/packages/koolaid1551_ionicons-stylus/_ionicons'
+@import '.meteor/local/isopacks/koolaid1551_ionic-stylus/os/packages/koolaid1551_ionic-stylus/_ionic'
+@import '.meteor/local/isopacks/koolaid1551_ionicons-stylus/os/packages/koolaid1551_ionicons-stylus/_ionicons'
 
 $mediumdark = lighten($dark, 50%)
 $supercalm = lighten($calm, 90%)
@@ -34,6 +34,9 @@ a.profile-link
 
 .align-right
   text-align right
+
+.component[draggable]
+  cursor move
 
 .game-area
 .game-panel-group
@@ -94,6 +97,20 @@ a.profile-link
       width auto
       display inline-block
       border none
+
+  &.collapsed
+    > :not(.panel-label)
+      display none
+
+    .panel-label::after
+      margin-left 0.8rem
+      // should be an easier way to do this
+      content "\f35f"
+      font-family "Ionicons"
+      speak none
+      text-rendering auto
+      line-height 1
+      font-smoothing antialiased
 
 .game-panel-mini
   .item
