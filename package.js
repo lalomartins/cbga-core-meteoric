@@ -73,6 +73,7 @@ Package.onUse(function(api) {
     'profile.coffee',
     'profileEdit.tpl.jade',
     'profileEdit.coffee',
+    'dragAndDrop.coffee',
   ], 'client');
   api.addFiles([
   ], 'server');
