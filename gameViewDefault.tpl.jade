@@ -10,8 +10,14 @@
 
 #common-panels.game-area
   each panelsGame
-    +panelFull
+    if hidden
+      +panelMini
+    else
+      +panelFull
 
 #own-player.game-area
   each panelsOwn
-    +panelFull
+    if hidden
+      +panelMini
+    else
+      +panelFull

@@ -1,5 +1,5 @@
 # XXX: this is kind of hacky, refactor
-CBGA.ui.PanelContainerContoller::doMoveComponent = (component, owner, oldContainer) ->
+CBGA.ui.PanelContainerController::doMoveComponent = (component, owner, oldContainer) ->
   console.log 'move component, meteoric way'
   type = @rules.getComponentType component.type
   if type.isCounter

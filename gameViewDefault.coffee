@@ -32,6 +32,7 @@ Template.gameViewDefault.helpers
       panel: panel
       owner: @
       controller: rules.getController 'panel', panel.id
+      hidden: panel.private
 
   panelsGame: ->
     rules = CBGA.getGameRules @rules
@@ -42,6 +43,7 @@ Template.gameViewDefault.helpers
       panel: panel
       owner: @
       controller: rules.getController 'panel', panel.id
+      hidden: panel.private
 
   panelsOwn: ->
     rules = CBGA.getGameRules @rules
@@ -58,6 +60,7 @@ Template.gameViewDefault.helpers
       panel: panel
       owner: player
       controller: rules.getController 'panel', panel.id
+      hidden: panel.private is 'all'
 
 Template.gameViewDefault.events
   'click .game-panel .panel-label': (event) ->
