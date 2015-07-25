@@ -41,6 +41,7 @@ a.profile-link
 .game-area
 .game-panel-group
 .game-panel:not(.game-panel-mini)
+.game-panel-component-type
   display flex
   flex-direction row
   flex-wrap wrap
@@ -111,6 +112,17 @@ a.profile-link
       text-rendering auto
       line-height 1
       font-smoothing antialiased
+
+.game-panel.panel-visibility-stack
+  .game-panel-component-type
+    flex-direction column
+
+    > .game-card-container:not(:first-child)
+      display none
+
+    > .game-panel-component-type-count
+      border none
+      text-align center
 
 .game-panel-mini
   .item

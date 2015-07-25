@@ -23,10 +23,10 @@ Template.gameViewDefault.helpers
     game = Template.parentData()
     rules = CBGA.getGameRules game.rules
     name = TemplateHelpers.h.playerName @
-    for panel in rules.uiDefs.panels \
-        when panel.owner is 'player' and panel.visibility is 'public'
-      id: "player-#{@_id}-#{panel.id}"
-      panelClass: "panel-player-#{panel.id}"
+    for panel in rules.uiDefs.panels when panel.owner is 'player'
+      id = panel.id.replace /\s/g, '-'
+      id: "player-#{@_id}-#{id}"
+      panelClass: "panel-player-#{id} panel-visibility-#{panel.visibility}"
       titleAttribution: "#{name}'s "
       icon: getIcon panel.icon
       panel: panel
@@ -37,8 +37,9 @@ Template.gameViewDefault.helpers
   panelsGame: ->
     rules = CBGA.getGameRules @rules
     for panel in rules.uiDefs.panels when panel.owner is 'game'
-      id: "game-#{panel.id}"
-      panelClass: "panel-game-#{panel.id}"
+      id = panel.id.replace /\s/g, '-'
+      id: "game-#{id}"
+      panelClass: "panel-game-#{id} panel-visibility-#{panel.visibility}"
       icon: getIcon panel.icon
       panel: panel
       owner: @
@@ -53,8 +54,9 @@ Template.gameViewDefault.helpers
     , limit: 1
     .fetch()[0]
     for panel in rules.uiDefs.panels when panel.owner is 'player'
-      id: "own-player-#{panel.id}"
-      panelClass: "panel-player-#{panel.id}"
+      id = panel.id.replace /\s/g, '-'
+      id: "own-player-#{id}"
+      panelClass: "panel-player-#{id} panel-visibility-#{panel.visibility}"
       titleAttribution: 'Your '
       icon: getIcon panel.icon
       panel: panel
