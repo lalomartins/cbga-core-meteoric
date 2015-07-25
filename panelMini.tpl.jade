@@ -3,4 +3,7 @@
     i.panel-title-attribution= titleAttribution
     = panel.title
   each controller.summary
-    .item.component-summary= this
+    .item.component-summary
+      = text
+      if provider
+        i.provider.ion-android-hand(draggable='true')

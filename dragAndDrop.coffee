@@ -1,10 +1,13 @@
 # XXX: this is kind of hacky, refactor
+coreMoveComponent = CBGA.ui.PanelContainerController::doMoveComponent
 CBGA.ui.PanelContainerController::doMoveComponent = (component, owner, oldContainer) ->
-  console.log 'move component, meteoric way'
-  type = @rules.getComponentType component.type
-  if type.isCounter
+  type = component.typeInfo ? @rules.getComponentType component.type
+  if component.provider or type.isCounter
     IonPopup.prompt
-      title: 'Move stack'
+      title: if component.provider
+        'Draw'
+      else
+        'Move stack'
       template: 'How many?'
       inputType: 'number'
       inputPlaceholder: '1'
@@ -13,13 +16,6 @@ CBGA.ui.PanelContainerController::doMoveComponent = (component, owner, oldContai
           count = 1
         else
           count = Number count
-        selector = type: component.type
-        if type.stackProperty?
-          selector[type.stackProperty] = component[type.stackProperty]
-        component.container().find selector, limit: count
-        .forEach (eachComponent) =>
-          eachComponent.moveTo @getContainer owner
-          oldContainer?.componentRemoved?(eachComponent)
+        coreMoveComponent.call @, component, owner, oldContainer, count
   else
-    component.moveTo @getContainer owner
-    oldContainer?.componentRemoved?(component)
+    coreMoveComponent.call @, component, owner, oldContainer
