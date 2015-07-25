@@ -48,6 +48,14 @@ a.profile-link
   justify-content space-between
   align-items stretch
 
+.game-area
+.game-panel-group
+  align-items center
+
+.game-panel:not(.game-panel-mini)
+.game-panel-component-type
+  align-items stretch
+
 .game-panel-group
   .panel-group-label
     color $mediumdark
@@ -57,6 +65,16 @@ a.profile-link
   .game-panel-mini
     .panel-title-attribution
       display none
+
+.game-panel:not(.game-panel-mini):not(.collapsed)
+  padding-top 1.5rem
+  position relative
+  min-width 120px
+
+  .panel-label
+    position absolute
+    top 3px
+    left 0
 
 .game-panel
   min-height 5em
@@ -83,7 +101,7 @@ a.profile-link
 
     // fix firing dragleave for children
     *
-      pointer-events: none
+      pointer-events none
 
   .panel-counters
     border-top none
@@ -117,12 +135,16 @@ a.profile-link
   .game-panel-component-type
     flex-direction column
 
+    > .game-card-container
+      flex-basis auto
+
     > .game-card-container:not(:first-child)
       display none
 
     > .game-panel-component-type-count
       border none
       text-align center
+      flex-grow 0
 
 .game-panel-mini
   .item
