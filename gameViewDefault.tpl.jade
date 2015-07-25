@@ -6,7 +6,10 @@
       .game-panel-group.card
         .panel-group-label= playerName
         each panelsOther
-          +panelMini
+          if zoomed
+            +panelFull
+          else
+            +panelMini
 
 #common-panels.game-area
   each panelsGame

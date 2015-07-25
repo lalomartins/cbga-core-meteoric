@@ -76,6 +76,9 @@ a.profile-link
     top 3px
     left 0
 
+  &.zoomable
+    cursor zoom-out
+
 .game-panel
   min-height 5em
   transition(background-color 0.5s ease-out)
@@ -131,7 +134,9 @@ a.profile-link
       line-height 1
       font-smoothing antialiased
 
-.game-panel.panel-visibility-stack
+.game-panel.panel-visibility-stack:not(.zoomed)
+  cursor zoom-in
+
   .game-panel-component-type
     flex-direction column
 
@@ -146,12 +151,22 @@ a.profile-link
       text-align center
       flex-grow 0
 
+.game-panel.panel-visibility-stack.zoomed
+  cursor zoom-out
+
+  .game-panel-component-type
+    > .game-panel-component-type-count
+      display none
+
 .game-panel-mini
   .item
     border none
     padding 5px
     text-align center
     background-color transparent
+
+  &.zoomable
+    cursor zoom-in
 
 .game-card
   flex 1 1 0

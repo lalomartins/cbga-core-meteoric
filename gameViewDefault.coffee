@@ -25,26 +25,58 @@ Template.gameViewDefault.helpers
     name = TemplateHelpers.h.playerName @
     for panel in rules.uiDefs.panels when panel.owner is 'player'
       id = panel.id.replace /\s/g, '-'
-      id: "player-#{@_id}-#{id}"
-      panelClass: "panel-player-#{id} panel-visibility-#{panel.visibility}"
-      titleAttribution: "#{name}'s "
-      icon: getIcon panel.icon
-      panel: panel
-      owner: @
-      controller: rules.getController 'panel', panel.id
-      hidden: panel.private
+      (=>
+        panelClass = "panel-player-#{id} panel-visibility-#{panel.visibility}"
+        unless panel.private
+          panelClass += ' zoomable'
+        zoomed = false
+        zoomedDep = new Tracker.Dependency
+        id: "player-#{@_id}-#{id}"
+        panelClass: ->
+          if @zoomed()
+            panelClass + ' zoomed'
+          else
+            panelClass
+        titleAttribution: "#{name}'s "
+        icon: getIcon panel.icon
+        panel: panel
+        owner: @
+        controller: rules.getController 'panel', panel.id
+        hidden: panel.private
+        zoomed: ->
+          zoomedDep.depend()
+          zoomed
+        toggleZoom: ->
+          zoomed = not zoomed
+          zoomedDep.changed()
+      )()
 
   panelsGame: ->
     rules = CBGA.getGameRules @rules
     for panel in rules.uiDefs.panels when panel.owner is 'game'
       id = panel.id.replace /\s/g, '-'
-      id: "game-#{id}"
-      panelClass: "panel-game-#{id} panel-visibility-#{panel.visibility}"
-      icon: getIcon panel.icon
-      panel: panel
-      owner: @
-      controller: rules.getController 'panel', panel.id
-      hidden: panel.private
+      (=>
+        panelClass = "panel-player-#{id} panel-visibility-#{panel.visibility}"
+        zoomed = false
+        zoomedDep = new Tracker.Dependency
+        id: "game-#{id}"
+        panelClass: ->
+          if @zoomed()
+            panelClass + ' zoomed'
+          else
+            panelClass
+        icon: getIcon panel.icon
+        panel: panel
+        owner: @
+        controller: rules.getController 'panel', panel.id
+        hidden: panel.private
+        zoomed: ->
+          zoomedDep.depend()
+          zoomed
+        toggleZoom: ->
+          zoomed = not zoomed
+          zoomedDep.changed()
+      )()
 
   panelsOwn: ->
     rules = CBGA.getGameRules @rules
@@ -55,15 +87,36 @@ Template.gameViewDefault.helpers
     .fetch()[0]
     for panel in rules.uiDefs.panels when panel.owner is 'player'
       id = panel.id.replace /\s/g, '-'
-      id: "own-player-#{id}"
-      panelClass: "panel-player-#{id} panel-visibility-#{panel.visibility}"
-      titleAttribution: 'Your '
-      icon: getIcon panel.icon
-      panel: panel
-      owner: player
-      controller: rules.getController 'panel', panel.id
-      hidden: panel.private is 'all'
+      (=>
+        panelClass = "panel-player-#{id} panel-visibility-#{panel.visibility}"
+        zoomed = false
+        zoomedDep = new Tracker.Dependency
+        id: "own-player-#{id}"
+        panelClass: ->
+          if @zoomed()
+            panelClass + ' zoomed'
+          else
+            panelClass
+        titleAttribution: 'Your '
+        icon: getIcon panel.icon
+        panel: panel
+        owner: player
+        controller: rules.getController 'panel', panel.id
+        hidden: panel.private is 'all'
+        zoomed: ->
+          zoomedDep.depend()
+          zoomed
+        toggleZoom: ->
+          zoomed = not zoomed
+          zoomedDep.changed()
+      )()
 
 Template.gameViewDefault.events
   'click .game-panel .panel-label': (event) ->
     $(event.currentTarget.parentElement).toggleClass 'collapsed'
+
+  'click .game-panel.zoomable, click .game-panel.panel-visibility-stack': (event) ->
+    console.log @, event.currentTarget
+    event.preventDefault()
+    event.stopImmediatePropagation()
+    @toggleZoom()
