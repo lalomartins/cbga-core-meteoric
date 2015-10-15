@@ -23,7 +23,8 @@ Router.map ->
 
     @route 'game/:_id',
         data: ->
-            CBGA.findGame @params._id
+            if CBGA.Games.find().count() # if games subscription ready
+                CBGA.findGame @params._id
 
         waitOn: ->
             [
