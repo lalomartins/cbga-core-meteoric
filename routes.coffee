@@ -23,9 +23,9 @@ Router.map ->
 
     @route 'game/:_id',
         data: ->
-            CBGA.Games.findOne @params._id, transform: CBGA.Game._wrap
+            CBGA.findGame @params._id
 
-        subscriptions: ->
+        waitOn: ->
             [
                 Meteor.subscribe 'cbga-components-for-game', this.params._id
                 Meteor.subscribe 'cbga-container-counts-for-game', this.params._id

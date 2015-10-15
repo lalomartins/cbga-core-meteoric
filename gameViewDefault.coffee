@@ -24,7 +24,7 @@ Template.gameViewDefault.helpers
     rules = CBGA.getGameRules game.rules
     name = TemplateHelpers.h.playerName @
     for panel in rules.uiDefs.panels when panel.owner is 'player'
-      id = panel.id.replace /\s/g, '-'
+      id = panel.name.replace /\s/g, '-'
       (=>
         panelClass = "panel-player-#{id} panel-visibility-#{panel.visibility}"
         unless panel.private
@@ -41,7 +41,7 @@ Template.gameViewDefault.helpers
         icon: getIcon panel.icon
         panel: panel
         owner: @
-        controller: rules.getController 'panel', panel.id
+        controller: rules.getController 'panel', panel.name
         hidden: panel.private
         zoomed: ->
           zoomedDep.depend()
@@ -54,7 +54,7 @@ Template.gameViewDefault.helpers
   panelsGame: ->
     rules = CBGA.getGameRules @rules
     for panel in rules.uiDefs.panels when panel.owner is 'game'
-      id = panel.id.replace /\s/g, '-'
+      id = panel.name.replace /\s/g, '-'
       (=>
         panelClass = "panel-player-#{id} panel-visibility-#{panel.visibility}"
         zoomed = false
@@ -68,7 +68,7 @@ Template.gameViewDefault.helpers
         icon: getIcon panel.icon
         panel: panel
         owner: @
-        controller: rules.getController 'panel', panel.id
+        controller: rules.getController 'panel', panel.name
         hidden: panel.private
         zoomed: ->
           zoomedDep.depend()
@@ -86,7 +86,7 @@ Template.gameViewDefault.helpers
     , limit: 1
     .fetch()[0]
     for panel in rules.uiDefs.panels when panel.owner is 'player'
-      id = panel.id.replace /\s/g, '-'
+      id = panel.name.replace /\s/g, '-'
       (=>
         panelClass = "panel-player-#{id} panel-visibility-#{panel.visibility}"
         zoomed = false
@@ -101,7 +101,7 @@ Template.gameViewDefault.helpers
         icon: getIcon panel.icon
         panel: panel
         owner: player
-        controller: rules.getController 'panel', panel.id
+        controller: rules.getController 'panel', panel.name
         hidden: panel.private is 'all'
         zoomed: ->
           zoomedDep.depend()
