@@ -79,6 +79,17 @@ a.profile-link
   &.zoomable
     cursor zoom-out
 
+.drag-allowed
+  background-color $supercalm
+  transition(background-color 0.1s ease-in)
+
+  // fix firing dragleave for children
+  *
+    pointer-events none
+
+  &.component > .item
+    background-color transparent
+
 .game-panel
   min-height 5em
   transition(background-color 0.5s ease-out)
@@ -98,22 +109,19 @@ a.profile-link
     width 250px
     display flex
 
-  &.drag-allowed
-    background-color $supercalm
-    transition(background-color 0.1s ease-in)
-
-    // fix firing dragleave for children
-    *
-      pointer-events none
-
   .panel-counters
     border-top none
     text-align center
+    background-color transparent
+    white-space normal
+    max-width 250px
+    flex 0 0 auto
 
     .component-summary
     .counter-summary
     .counter-token
       border-top none
+      background-color transparent
 
     .counter-token
       width auto

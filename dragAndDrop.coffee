@@ -1,6 +1,6 @@
 # XXX: this is kind of hacky, refactor
-coreMoveComponent = CBGA.ui.PanelContainerController::doMoveComponent
-CBGA.ui.PanelContainerController::doMoveComponent = (component, owner, oldContainer) ->
+coreMoveComponent = CBGA.ui.Controller::doMoveComponent
+CBGA.ui.Controller::doMoveComponent = (component, owner, oldContainer) ->
   type = component.typeInfo ? @rules.getComponentType component.type
   if component.provider or type.isCounter
     IonPopup.prompt

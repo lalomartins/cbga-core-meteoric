@@ -1,5 +1,5 @@
 with ..
   if type.draggable
-    .item.component.counter-token(draggable='true')= type.displayNameSingular
+    .item.component.counter-token(class='#{type.name}-token', draggable='true')= type.displayNameSingular
   else
-    .item.counter-token= type.displayNameSingular
+    .item.counter-token(class='#{type.name}-token')= type.displayNameSingular
