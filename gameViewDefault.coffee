@@ -116,7 +116,6 @@ Template.gameViewDefault.events
     $(event.currentTarget.parentElement).toggleClass 'collapsed'
 
   'click .game-panel.zoomable, click .game-panel.panel-visibility-stack': (event) ->
-    console.log @, event.currentTarget
     event.preventDefault()
     event.stopImmediatePropagation()
     @toggleZoom()
